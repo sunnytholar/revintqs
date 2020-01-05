@@ -1,0 +1,44 @@
+1) How much sal you are expecting and why ?
+I agree with you, however I had joined this company with an intention of staying for at lest 2 years.,
+ it it because of the lack of projects that I am looking out. In my company, the avg hike is between 15 -20% for analytics team. 
+If I leave I will be losing my appraisal which is due in June. So joining another company with similar or barely hike package does not make any sense. 
+I am in talks with other organisations as well who are ready to offer me 35 - 40%. I'm just waiting for the right role and 
+want to get into a stable organisation where I could be part of multiple projects. Hence.. I am looking for a hike of minimum 30%.
+ I am looking for a long term engagement with the company that I join.
+2) What was your approach in the project ?
+ Approach: We needed to understand usage pattern of the big customers which contributed the maximum to the revenue for the technology customer. 
+This technology giant had two types of customers EA which stands for organisations taking bulk subscriptions and direct customers
+ which were basically individuals like you and me. So we started exploring the options to solve this issue. We started categorising the customer 
+base of the client to understand the end customers for the client. Once we had clarity on the customers with respect to their age, location,
+ size of organization, revenue, earnings, etc. We started our study on the products that our client was focused on selling.
+ We figured out the top service - low service products, affordable- expensive products. Once we had both the data clear around 
+our customers and services we started creating co-relation and impact. I used
+
+
+
+
+check below and delete:
+Questions from recordings which i don't know:
+-How is p value calculated in hypothesis testing
+-In 12k 1k missing how we will handle it's important variable so we can't just remove 
+-Important diff between bagging and random.forest
+One.is bagging is a special case of random forest where mtry = k where k means total no of predictors I.e for bagging we use mtry value as full set of pr edictors .Check if any other difference in google
+-How more weight age is given in boosting during 
+-Can we directly handle bias data problem in random forest
+Yes we can... Bootstrap take care when it creates multiple sample it take care 1 and 0 both is present in each sample by good proportion
+-In clustering we can create dummy variable ,do scaling and then use.if we don't use a scalling it will be a problem as age will of diff unit and education will be of different unit
+- does no of leaf in decision tree or random forest helps in over fitting or in general how to avoid over fitting in data
+- what tunning parameters we use in regression problem in random forest
+- in logistic regression if even rate is less what metric can be used to validate 
+I guess Expected answer is F1
+- diff between random sampling and stratified sampling
+- why to use VIF when multicollinearity issue can be resolved via cor function
+- what is semi supervised learning?
+Eg if we have millions of male and for few data we have label if it's spam. Or not spam so we can  use bootstrap and label other dataset.This is called semi supervised learning
+- For decision tree split for regression check 4th T1.4 video of Random forest section in jigsaw videos
+-  for pca and l1,l2 regularisation check 
+T3.4 video of Random forest section in jigsaw videos
+-  Other benefits of using mtry is it de-correlates the trees
+-  no of trees try default 500,half and try,double the default and try and select which gives less error
+- 
+

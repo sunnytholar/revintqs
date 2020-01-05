@@ -1,0 +1,166 @@
+loss function for  lineat is MSE(Mean squared error) and for log reg is log loss
+MSE = summation(i= 1 to n ) [actual - predicted]square
+log loss = -(minus) of summation(i= 1 to n ) [actual * log(predicted)]
+1)  MLE:
+logistic regression models are estimated most commonly using a technique called maximum likelihood estimation.
+log(p/(1-p)) = beta0+beta1x1+bet2x11 + error and so on .. left hand side is log of odd ratio ...p is probabilty of getting defaulted
+2) what is AIC:(Aike information criteria)
+Its value should be as low as possible for a good model
+3) ROC Curve:
+Sensitivity or (Recall) or (True positive rate) vesrus False positive rate or (1-specificity)
+4)what is link function in logistic regression.
+link function is logit. logit is odds ration and its formula is ...
+5) Few Logistic Imp Points:
+AUC = Concordant Percent + 0.5 * Tied Percent
+6) 
+Concordant : Percentage of pairs where the observation with the desired outcome (event) has a higher predicted probability 
+than the observation without the outcome (non-event).
+Discordant : Percentage of pairs where the observation with the desired outcome (event) has a lower predicted probability 
+than the observation without the outcome (non-event).
+Tied : Percentage of pairs where the observation with the desired outcome (event) has same predicted probability than
+ the observation without the outcome (non-event).
+7)Gini or Somer's D  = 2 AUC  - 1
+or
+Somer's D =  (Concordant Percent  - Discordant Percent) / 100
+It should be greater  then 0.4
+8) Kolmogorov-Smirnoff Statistic (KS)
+It looks at maximum difference between distribution of cumulative events and cumulative non-events.
+KS statistics should be in top 3 deciles.
+KS statistics should be between 40 and 70.
+Divide target into 10 bins and find cols no of events, no of non eventa and der percentage cumulative events
+9)
+Instead of a linear relationship between X and P, we have a sigmoidal or S-shaped relationship.
+10)Gain and Lift charts
+Gain and Lift chart are mainly concerned to check the rank ordering of the probabilities. 
+11)Gini = 2*AUC – 1
+Gini above 60% is a good model.
+12)
+What is cross validation:
+It  basically helps to avoid overfitting issue. In this dataset is divided into 10 folds. In 1st cycle it takes k = 1 as test & on other it trains the model.
+On 2nd iteration it keeps k=2 for test and others for train.
+Simple way to achieve this is:
+control <- trainControl(method='repeatedcv',number=10,repeats=3)
+set.seed(7)
+fit.cart <- train(diabetes~.,data=PimaIndiansDiabetes,method='rpart',trControl=control)
+13)Cost function. Unfortunately we can't (or at least shouldn't) use the same cost function MSE (L2) as we did for linear regression. ... 
+Instead of Mean Squared Error, we use a cost function called Cross-Entropy, also known as Log Loss.
+14)When is precision more important over recall?
+Precision is more important than recall when you would like to have less False Positives in trade off to have more False Negatives. Meaning,
+ getting a False Positive is very costly, and a False Negative is not as much.
+15)Diff between Null and Residual Deviance:
+Null deviance: Gives the model Error when No predictor variables (IDV’s ) are involved
+Residual deviance: The model Error when predictors are taken into account
+Hence always Residual deviance< Null deviance so that we can say that the IDv’s have contributed in predicting the DV well
+16)How is ROC curve plotted?  
+ROCR Plot is a plot between FPR and TPR
+o	The “performance” function, for all cut off values -> calculates the FPR and TPR and throws the result, which is then plotted.
+o	We should also pick up a higher TPR and a lower FPR. That will be a good model.
+17)how sigmoidal converts to 0 and 1, how sigmoidal works
+It basically gets the data into probability.
+For eg if want  to plot between loan amount and default.We will divide loan amount into different bins and  find  percentage of default for each bin.And draw a plot.
+SO we will see a sigmoidal curve which gives  the  probability for eg if persoon takes  loan amount between 500-1000 dollar there is 70% probability it will get default.
+18)Python
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import classification_report
+print(classification_report(y_test,predictions))
+step16: to get confusion matrix
+from sklearn.metrics import confusion_matrix
+confusion_matrix
+(y_test,predictions)
+/////////////////////////////////////////////////////LOGISTIC REGRESSION/////////////////////////////////////////////////////////
+1) What is a logistic regression model? 
+It is a form of regression analysis that is used when we want to predict the outcome of a discrete variable. 
+Logistic regression in used when the dependent variable or the target variable is categorical in nature,
+ the independent variables could either be continuous or categorical.
+2) 3 types of logistic regression:
+binary logit - They are used when response variable has binary or dichotomous outcomes.
+ordered logit - When you have a categorical variable with more than two outcomes, and there is a certain ordering of the outcomes, 
+		for example - high likelihood, medium likelihood and low likelihood;
+multinominal logit - more then two outcomes but no ordering. for example, the type of bread that I will buy at a bakery, could be multiple types of 
+			bread – whole wheat, white bread, multigrain etc. but there is no ordering of the outcomes.
+
+3) case study ... bank want to prepare a model which will predict whether customer is about to be defaulted or fraud based on past data,
+Let’s now spend a little bit time looking at the data that is available for us to help the bank make this discovery about whether or not the customer
+ is going to default or not.The bank would have accessed to two types of data: the loan data and the demographic data.
+bank has access to variables : the income category of the customer, the loan amount and the credit score of the customer,repayment status
+4) whats odd ratio:
+We first calculate the odds ratio. The odds ratio is the concept that is fairly extensively used in statistics. It is a standard statistical term that 
+denotes probability of success to the probability of failure, p over 1-p. 
+It can be also called as exponent of the beta coeffients
+5) In data prepation:
+first we need to do Response Variable Coding : i.e we need to convert response variable into 1 and 0.. in our eg repaid loan as 1 and default as 0
+missing value treatment
+outlier detection
+6) MLE:
+logistic regression models are estimated most commonly using a technique called maximum likelihood estimation.
+log(p/(1-p)) = beta0+beta1x1+bet2x11 + error and so on .. left hamnd smid en  is log of odd ratio ...p is probabilty of getting defaulted
+7) When we run logistic model it generated
+ 1.Coeficnt table which is same as linear regresion
+ 2.Model fit stastics table : here AIC, SC and –2 log L value should be as low as possible for a good model
+ 3.testing global null hypothesis - we need to reject all so p < 0.05
+ 4. Odds ratio estimates and concordant table:
+ if you see a confidence interval that includes 1 in it then it’s very likely that your coefficient is insignificant
+ der should be high levels of concordance and low level of discordance and tied pairs.
+ In concordance it combines all possibes outcome of 0 and 1 combinations and it makes pairs.pairs where predicted prob of 0 which is default model in our case
+ is greater then 1 it is concordant pair and if predicted prob of 1 is greater then 0 it is discordant pair
+ 5.C-C statistic- which is how much this model is better than a random approach.Which means that if I had a random model then roughly 50% of the time I would be right.
+ And if I have a C-C statistic now 63% it means that I am 13% better than a random model.same prob then tied pair
+ 6.classification table .. in this  we check confusion matrix - how much correct prediction it is making. .. 4 factors correct events, correct non events
+ incorrect events, incorrect non events. type1 error is customer not default but shown defaut.type2 is default show not default so type 2 is very important
+ mostly cut off probabilty is taken as 0.5 but again it depends on business
+ 7. Gain Charts or lift curves(gain/lift curve):
+ 1st step is we will get predicted values for all observation then sort the data in desc order of predicted values.it has 500 observations so we will divide into
+ 10 groups each with 50 observations from 0 to 9.now in each group we find observed defaults , expected defaults. we see observed value is more then 2 times of 
+expected
+ which is called as lifts.actually we look on cumulative lifts to plot the graph. so we plot observed cumulative default versus 
+ Basicallt in plot we will see blue line which is for random and red line which is for predicted which need to be as far as possible.
+ 8. Rank ordering: it is related to gain charts.In below it should show that cumulated predicted increases or decrease by deciles .. der should be no break
+ 9.Scoring: it is the predicted values calculated on basis oh which we decide whether customer is about to be defaulted or not
+8) case study .. direct marketing
+step1 we will use packages irr and caret for accuracy metrics,  gains,dplyr
+step2 .. we will remove amount col and add new col bad and good
+	dm%>%mutate(Target=ifelse(amountspent<mean(amountspent),0,1)) -> dm
+	dm%>%select(-amountspent) -> dm
+step3 : convert childer and catalog variable to factor
+step4 : labbel missing value of history variable  to "MissingValue"
+step5 : split the dataset into test and training samples
+	set.seed(100)
+	index = sample(nrow(dm),0.70*nrow(dm),replace=F)
+	train = dm[index,] and test = dm[-index,]
+step6 : run the model .. mod <- glm(Target~.,data=train[-9],family="binomial")
+step7 : on validation we see few variables are not significant.so we can exclude ourself or use step function which help
+	step(mod,direction="both") .. here both means forward as well as backward selection
+step8 : now we will create dummy variable for variable where atleast for few levels it shows significane
+step9 : pred <- predict(mod,type="response",newdata=test)
+step10 : now we need to validate.above it gave proabiliet of good customer.so we want in terms of 1 and 0. we need to decidee cutofof by seeing existing data
+	table(dm$Target)/nrow(dm) ..it comes proportion of good customers in all of my data is 0.399.So I’ve set up a cutoff of 0.399. 
+step11 : pred <- ifelse(pred>=0.399,1,0)
+step12 : we will see kappa metric and it should be greater then 0.6
+	kappa2(data.frame(test$Target,pred)) 
+step13: next look at confusion matrix
+step14 : confusionMatrix(pred,test$Target,positive="1") .. here 1 as we looking for good customer which is 1
+step15 : gainchart gains(dm$Target,predict(mod,type='response"newdata=test),groups=10)
+It means that if I trust my model, then the top 30% of the probability scores would yield 70% of the total good customers in my population.
+step16 : we also look at null deviance and residual deviance .. residual deviance should be less then null deviance
+step17 : ROCR curve .. it hepls validate the model .. high AUC means good model.Also helps us choose the optimal cut off point
+	auc1 <- performance(pred,"auc")
+	auc1 <- unlist(slot(auc1,"y.values"))
+	auc1 .. o/p is 0.8818272
+9) ROC(Receiver operating characteristics) curve : It summaruzes model performance by evaluating the tradeoff between true positive rate(sensitivuty)
+and false positive rate(1-specifity).
+10) what is sensitivty
+Sensitivty is commonly used to validate the accuracy of a classifier.It is nothing but "Predicted True events/Total events"
+ 11)what is link function in logistic regression.
+link function is logit. logit is odds ration and its formula is ...
+https://www.theanalysisfactor.com/what-is-logit-function/
+12)Link for cross volidation and other evaluation metric, check when  we have time?
+https://www.analyticsvidhya.com/blog/2015/11/improve-model-performance-cross-validation-in-python-r/
+https://www.analyticsvidhya.com/blog/2016/02/7-important-model-evaluation-error-metrics/
+ks in logistic regression:
+https://www.listendata.com/2015/01/model-performance-in-logistic-regression.html
+https://www.analyticsvidhya.com/blog/2015/11/beginners-guide-on-logistic-regression-in-r/
+https://discuss.analyticsvidhya.com/t/how-to-get-the-percentage-concordant-and-discordant-values-for-a-logistic-regression-model-in-r/1458/2
+
+  
+
+

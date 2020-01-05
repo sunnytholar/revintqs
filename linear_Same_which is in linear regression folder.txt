@@ -1,0 +1,213 @@
+1) LinearRegression Equation:
+y = b0+b1x1+b2x2+ ... + error
+Here b0 is intercept i.e point at which line meets y axis and b1,b2 are coefficients
+Coefficient is actually average of coefficient which can come from multiple samples,
+ standard error is  standard deviation of distribution of the coefficients,
+t stat is distance in the t distribution
+2)  loss or cost function for linear  regression
+ MAPE
+3) library(caret)
+indexP <- createDataPartition(y=cr$Good_Bad,times=1,p=0.70,list=F)
+4)
+p value- Because the p value is very, very low, we reject the null hypothesis that the coefficient on gestate is actually equal to zero.
+5) There. is standard error, there is t statistic, and there are confidence intervals. : lower error ,  
+ the narrower the ranger of the confidence interval .. better themodel 
+6) Rsquare:R2 explains what is the proporti	on of the variance in Y that is being explained by X.
+The higher the R2 obviously the more variation in Y you are able to express and therefore the better your model is
+7) Adjusted R2:  adjusted R2 typically will go up only if significance variables are added to the model.
+8).Anova table:in an ANOVA table essentially what we are checking for is whether or not at least one of the Beta coefficient is different from zero.
+so here we check p  value which should be less then 0.05
+9)Fit chart: Actual versus fitted values
+So we will draw a line chart between actual and predicte values .i.e fitted values and expect it to be  overlapping with each other.This is called a FIT chart.
+Remember, if we have a  good model we would expect to see the actual values and the predicted values to be very close to each other, very similar.
+9)MAPE - Mean absolute percentage error
+The averge absolute difference between actual and predicted values generated the MAPE
+= ABS((actualgrams-predictedgrams)/predictedgrams)
+ you may want to see absolute percentage errors 5% or lower.
+10)Regression asumptions:
+-  Check for linearity - plot the residuals against each IV
+	if data is linearly related,we should see no pattern in the plot i.e no increasing or decreasing trend/pattern
+-  The residuals(error) should have constant variance - homoscedasticity
+	Plot the residuals against predicted Y - there should be no pattern
+- Multivariate normality : The residuals are normally distribited, draw qq pplot
+ You should ideally see a probability plot or a histogram which is normally distributed for the errors.
+- The IVS are not too correlated - multicollinearity
+The IVS should not be highly correlated to one another
+Higher than 40%, 50% or 60% correlations essentially means that the independent variables are highly correlated, in which case we have a 
+problem called multicollinearity.
+so VIF value should be usually less then 10
+- no auto correlation ;: there should be no correlation between residuals(error) terms
+11) what is gradient descent
+In simple words, gradient descent tries to optimize the loss function by tuning different values of coefficients to minimize the error.
+Used in lasso regression instead of OLS.Mostly used for very very high dimensions and observations.
+It is the most commonly used optimization technique when dealing with machine learning.
+Its almost used in all types of machine learning algroithm.Every algorithm has loss function which is reduced using gradient descent
+Gradient descent is the most popular optimization strategy in deep learning.
+The goal of the algorithm is to find the intercept and gradient(coeffiecinet) values which correspond to the lowest possible MSE. 
+It achieves this through iteration over each set of xy data pairs whereby new intercept and gradient values are calculated as well as a new MSE.
+ Then, the new MSE is subtracted from the old MSE and, if the difference is negligible, the optimal values are found.
+12) what is regularization?
+It helps overcoming overfitting issue.It is called regularization as it helps keeping the parameters regular or normal.
+Generally we do not want huge weights i.e beta0,beta1 , beta2 we dont want it to be very high.If hight small change in weight makes large difference in
+target variable.so something should be der to control this weights
+ The common techniques are the L1 and L2 regularization techniques also commonly known as Lasso and Ridge Regressions.
+13) What is ridge regression?
+Ridge Regression is a technique used when the data suffers from multicollinearity.This is a regularization method and uses l2 regularization.
+ It penalizes the absolute size of the regression coefficients.
+lambda is added which issummation of ß2 (beta- square) where ß is the coefficient.
+ This is added to least square term in order to shrink the parameter to have a very low variance.
+https://www.analyticsvidhya.com/blog/2015/08/comprehensive-guide-regression/
+https://www.youtube.com/watch?v=hrzx3FTL9aQ
+https://www.analyticsvidhya.com/blog/2017/06/a-comprehensive-guide-for-linear-ridge-and-lasso-regression/
+14) What is lasso regression?
+lasso.mod <- glmnet(x[train,], y[train], alpha = 1, lambda = lambda)
+This is a regularization method and uses l1 regularization.
+ This leads to penalizing (or equivalently constraining the sum of the absolute values of the estimates) values which causes some of the parameter estimates
+ to turn out exactly zero. Larger the penalty applied, further the estimates get shrunk towards absolute zero. This results to variable selection out of 
+ given n variables.
+ If group of predictors are highly correlated, lasso picks only one of them and shrinks the others to zero
+Lasso regression differs from ridge regression in a way that it uses absolute values in the penalty function, instead of squares. 
+15) what is polynomial regression?
+A regression equation is a polynomial regression equation if the power of independent variable is more than 1.
+In this regression technique, the best fit line is not a straight line. It is rather a curve that fits into the data points.
+16) diff between lda and logistics regression:
+LR is much more general and has a number of theoretical
+properties, LDA must be the better choice if we know the population is normally
+distributed. 
+17)Due to collinear variables , spurious relationship is seen in the train data not in test data , as a result we face issue of overfittig
+18) what is RMSE formula:
+square root of summation of square of (predicted- actual) divide by number of observations
+19) what happens due to multicollinearty?
+it creates spurious relation in training data which might not be found in validation data.
+Also 1st variables explains 80% of information so use of  using variables which just add duplicate information
+As  we know the equation of linear regression so  it also impacts the slope.
+Multicollinearity increases the standard errors of the coefficients. Increased standard errors in turn means that coefficients for some independent variables 
+may be found not to be significantly different from 0. In other words, by overinflating the standard errors, multicollinearity makes some variables 
+statistically insignificant when they should be significant. Without multicollinearity (and thus, with lower standard errors), those coefficients might be significant.
+ But severe multicollinearity is a major problem, because it increases the variance of the regression coefficients, making them unstable. 
+The more variance they have, the more difficult it is to interpret the coefficients.
+20)What are the residuals in  linear regression – They are poositive and negatve.above line  it is positve, below its negative, 
+when we do sum its MSE.if we don’t take RMSE it will cancel each other so we took root so that everyting will be in 
+21)E is error which is nothing but random sampling variation
+22)What is OLS regression?
+The Ordinary least square regression technique estimates coefficients on the variables hypothesized to have an impact on the variable of interest by identifying the line
+that minimizes  the sum of squared differences between the points on the estimated line  and the actual values of the independent variables
+It does sum of squares else postive and negative might have cancelled each other
+23) Formula to calculate linear regression manually.
+1st calculate coficients for which formula is : [summation of (X-Xmean)(Y-Ymean)]/[summation of (X-Xmean)square]
+2nd calculate intercept for which formula is : Ymean - b1X1mean - b2X2mean - b3X3mean and  so on.
+3rd : now we have cofficients/slope and intercept so we can create a linear regression equation	
+24)IN linear regression output 
+Coefficient is actually average of coefficient which can come from multiple samples, 
+standard error is  standard deviation of distribution of the coefficients,
+t stat is distance in the t distribution
+25) What is Anova in linear  regression output?
+The Anova  table shows us the output of the test of hypothesis that at least one of the beta coeficients is different from zero i.e it is significanr. 
+for this in output we need to checkp value is less then 0.05 
+26) What if model suffers from heterosidasticty?
+Coz if variance is not constant that means thr is some factors affecting the dv. If it has pattern then the std error will get expanded and hypothesis test will bcm wrong. 
+Confidence interval will increase.Std error is a meaure of variance so if std err are biased then hypothesis test results will be biased leading to wrong interferences.
+Hence we want homosadasticity or narrow conf interval or lesser std error
+27) What happen if residuals are not normally distributed?
+Residuals should be normally distributes , if  not hypothesis test outcome may be  invalid.though less of issue with large samples , 
+with large sample even if its is approximately distributed its fine
+28)  Linear Regression Output:
+Intercept = Also known as the y intercept, it is simply the value at which the fitted line crosses the y-axis. The intercept is the expected mean value of Y when all X=0. 
+Std. Error = represents the average distance that the observed values fall from the regression line. 
+Conveniently, it tells you how wrong the regression model is on average using the units of the response variable. 
+Smaller values are better because it indicates that the observations are closer to the fitted line.
+t-statistic  = is just the estimated coefficient divided by its own standard error. 
+Thus, it measures "how many standard deviations from zero" the estimated coefficient is, 
+and it is used to test the hypothesis that the true value of the coefficient is non-zero, in order to confirm that the independent variable really belongs in the model. 
+F statistic = tests whether the predictor variables taken together, predict the response variable above chance levels. Because there’s only one predictor variable in simple regrssion
+Coefficient of determination(also known as R2) is used to determine how closely a regression model "fits" or explains the relationship 
+between the independent variable (X) and the dependent variable (Y). R2 can assume a value between 0 and 1; the closer R2 is to 1, 
+the better the regression model explains the observed data.
+29) what does log transformation does?
+Log transformations help to capture the range or the variance in the data.
+30) Diff between correlation and regression?
+In correlation we check how strong or weak relation 2 variables  have.In regression  also we do same but we also hava magnitude of change like 1 unit change in x variable will 
+lead to some amount of change in y variables.
+31) how to progress when we have  skew data
+If we have skew data , data transformation helps . to remove positive skew do log transformation and to remove negative skew do square
+32) What is the relationship between R-squared and p-value in a regression?
+There is no established association/relationship between p-value and R-square. This all depends on the data (i.e.; contextual).
+R-square value tells you how much variation is explained by your model. So 0.1 R-square means that your model explains 10% of variation within the data.
+ The greater R-square the better the model. Whereas p-value tells you about the F statistic hypothesis testing of the "fit of the intercept-only model and your model are equal".
+ So if the p-value is less than the significance level (usually 0.05) then your model fits the data well.
+Thus you have four scenarios:
+1) low R-square and low p-value (p-value <= 0.05)
+2) low R-square and high p-value (p-value > 0.05)
+3) high R-square and low p-value
+4) high R-square and high p-value
+Interpretation:
+1) means that your model doesn't explain much of variation of the data but it is significant (better than not having a model)
+2) means that your model doesn't explain much of variation of the data and it is not significant (worst scenario)
+3) means your model explains a lot of variation within the data and is significant (best scenario)
+4) means that your model explains a lot of variation within the data but is not significant (model is worthless)
+33)if using linear reg and data is  not linear we can try polynomial 
+What is polynomial : Poly means  many + nomial means terms of algebra.It can  be of different types one term,  two term , three term or higher no of terms
+It  is  simply expressison whcih has one  or more terms
+https://www.youtube.com/watch?v=ZYN0YD7UfK4
+When indep and dep variable does not have actually linear relation and it has little curver then we can go for polynomial regression where we include square of indep vari or cube of
+indeop variable which help to getter better prediction.To test if it has statistically significant improve we can run  anova test as below
+anova(mod1,mod2) ...  if p is less  then  0.05 we willl reject the null hypothesis that there is no difference between 2 models.
+34) HOw is Variance Inflation Factor(VIF) calculated.
+VIFs are calculated by taking a predictor, and regressing it against every other predictor in the model. This gives you the R-squared values, which can then be plugged into the VIF formula. 
+A VIF for a single explanatory variable is obtained using the r-squared value of the regression of that variable against all other explanatory variables:
+VIF_j=1\[1-R_jsquar]
+where the VIF for variable j is the reciprocal of the inverse of R^2 from the regression. A VIF is calculated for each explanatory variable and those with high values are removed. 
+The definition of ‘high’ is somewhat arbitrary but values in the range of 5-10 are commonly used.
+35) Diff between r, R, rsquare and capital R squrare
+r and R (Pearson  cofficient of correlation) are same i.e correlation between variables
+rsquare and R square(coefficient of  determination) are same which helps us to find  how much our model is able to explain the variation of data in y?
+36) Formula  for r,R square, Adjusted R square
+Rsquare= 1- [SSres /SStot]
+SSres - The sum of squares of residuals
+SStot - The total sum of squares 
+SStot - summationof (yi - ymean)square : Y and Yi are actual values
+SSres - summationof(yi-fi)square : fi is forecast values which is nothing but error terms eisquare
+Adjusted R square is calculated as 1 - [(1-Rsquare) * (n-1)/(n-p-1)]
+where p is the total number of explanatory variables in the model (not including the constant term), and n is the sample size.
+r formula can be found here:
+https://en.wikipedia.org/wiki/Pearson_correlation_coefficient
+37)Can we use linear regreresion instead of logistics ? No ? Problems with Linear Probability Model?
+In linear regression we see so many probability values less than 0!
+Also we will not see assumption of linear regression been true.Hence der is need of sigmoid shape curve	
+QQ plot doesnt look normal,it suffers from heterosedastcity
+by converting by p < 0 to 0 ..It might help with negative value but will ntot resolve issue of assumption
+38)  AIC : Akaike Information Criteria
+They are information criteria, used to give an indication of the "goodness" of a model, i.e. how well it fits the data.
+ For the AIC, lower means a better fit. Usually several models are compared and the one with the best AIC or QIC is used. 
+In essence, what the AIC does is balances between a model with a good fit and the most parsimonious model. parsimonious  means simple
+39)  Why is T test used in linear regression?
+The t statistic is the coefficient divided by its standard error. The standard error is an estimate of the standard deviation of the coefficient,
+ the amount it varies across cases. It can be thought of as a measure of the precision with which the regression coefficient is measured.
+The t statistic is the coefficient divided by its standard error. 
+The standard error is an estimate of the standard deviation of the coefficient, 
+the amount it varies across cases. It can be thought of as a measure of the precision with which the regression coefficient is measured.
+T test is basically  for coeficient  whose sample is less so we use T test
+40)what is difference between linear and non linear regression?
+In linear we can draw a line to differentiate between the data classes. So it can be solved easily by a lineaar classifier
+Here, you cannot raw a line to separate the classes, so a linear classifier wont work. But you can draw a square 
+which can be a good classifier. Now this square can be represented by a tree based algorithm easily, so it would perform better
+Linear Models or parametric(As we get equation) are - Linear Regression,Logistic Regression ,SVM,Naive Bayes 
+Non Linear Models or non parametric(as no equation) are - Decision Tree, Random  Forest, KNN,  XGB, Bagging , Boosting, clustering, time series forecasting
+41)What is MAE, MAPE, MSE, and RMSE?
+MAE - Mean Absolute error = summation of (abs(Predicted - Actual))/n
+RMSE - Root Mean Squared Error = square roort of [summation of (Predicted - Actual)square/n]
+MSE- Mean Square Error = summation of (abs(Actual - Predicted) square)
+MAPE - Mean Absoulte Percentage Error =  summation of (abs(Actual - Predicted)/Actual)
+41) What is log loss or cost function for  linear regression?
+It's MAPE
+42) if variables have multicollinearity how to remove that without removing one variable
+Regression with Centered Variables .. is the option to reduce multicollinearity without removing variables.
+Centering the variables is also known as standardizing the variables by subtracting the mean. This process involves calculating the mean for each continuous 
+independent variable and then subtracting the mean from all observed values of that variable. Then, use these centered variables in your model. 
+http://statisticsbyjim.com/regression/multicollinearity-in-regression-analysis/
+
+
+
+
+
+

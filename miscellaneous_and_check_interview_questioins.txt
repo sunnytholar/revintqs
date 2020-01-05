@@ -1,0 +1,382 @@
+
+1) What happen when we multiply vectors of different length?
+It will throw error as vector length should be of same size
+2) We have 2 vectors , 1 is  numeric vector and another is character vector ? what will be class when we concatenate this 2 vectors?
+Class will be character
+3)with & by function 
+With is basically used to write more cleaned code
+eg : instead of plot(mtcars$wt, mtcars$qsec) we can write with(mtcars, plot(wt, qsec))
+by:
+It gives the same  output as tapply i.e group by factor variable and get mean or sum or other stuffs for each group
+by(mydata, mydata$byvar, function(x) mean(x))
+4)
+Text Quotes , number 
+df <- read.table("test.txt",sep = "\t",,colClasses = c("character","factor"))
+So by using colclasses we can restrict the datatype of variables we importing
+5)Diff between steeming and lematization
+Both does same thing but its better to use lematization due to the way it works 
+
+
+
+Imp Questions to check immediately:
+- diff between random sampling and stratified sampling - check in ppt
+- how is bin created for continous variable in random forest?
+-Important diff between bagging and random.forest
+One.is bagging is a special case of random forest where mtry = k where k means total no of predictors I.e for bagging we use mtry value as full set of pr edictors .Check if any other difference in google
+-Can we directly handle bias data problem in random forest
+Yes we can... Bootstrap take care when it creates multiple sample it take care 1 and 0 both is present in each sample by good proportion
+- PCA , IV check once
+- what is SVD and pCA
+
+
++++++++++++++read below
+1)What is diff between co-variance and correlation
+Covariance is a measure of how much two random variables vary together. 
+It’s similar to variance, but where variance tells you how a single variable varies, covariance tells you how two variables vary together.
+Note: co = together, variance = vary
+Equation for co variance is summation of (x-xbar)(y-ybar)/N ... N is total no of observations
+Now its important to know the scale of X and Y.Suppose we want to know the asssociation or covariance between height and weight.
+Let say K is kg and Y is in cm.SO now output unit will be = 200 Kg * cm
+Now suppose we also want to calculate co variance between weight and age so output of unit will be = 120 kg*year
+Now can we say weight and height are more correlated.Know we can;t as there units are different.
+Correlation cofficient actually fixed this problem as because it will standardize two different units.
+It is calculated as - covariance of (x,y)/ [standard deviation of x * standard deviation of y]
+And its value lies between 0 and 1 but co variance value lies between - infinity to + infinity
+1) Univariate analysis:
+we do it on one variable i.e age, height
+Some ways you can describe patterns found in univariate data include looking at mean, mode, median, range, variance, maximum, minimum, quartiles,
+and standard deviation. Additionally, some ways you may display univariate data include frequency distribution tables, bar charts, histograms,
+frequency polygons, and pie charts.
+2)Bi-Variate analysis:
+ Bivariate analysis is used to find out if there is a relationship between two different variables. Something as simple as creating a scatterplot by
+ plotting one variable against another on a Cartesian plane (think X and Y axis) can sometimes give you a picture of what the data is trying to tell you. 
+ If the data seems to fit a line or curve then there is a relationship or correlation between the two variables. 
+ For example, one might choose to plot caloric intake versus weight.
+3)Multivariate analysis is the analysis of three or more variables.  There are many ways to perform multivariate analysis depending on your goals.  
+Some of these methods include Additive Tree, Canonical Correlation Analysis, Cluster Analysis, Correspondence Analysis / Multiple Correspondence Analysis,
+ Factor Analysis, Generalized Procrustean Analysis, MANOVA, Multidimensional Scaling, Multiple Regression Analysis, Partial Least Square Regression, 
+ Principal Component Analysis / Regression / PARAFAC,  and Redundancy Analysis.
+4)What is PCA?
+Principal component analysis (PCA) is a statistical procedure that uses an orthogonal transformation to convert a set of observations of possibly correlated 
+variables into a set of values of linearly uncorrelated variables called principal components.
+It reduces variables which doesnt explain much variance in the data
+5)  Measures of dispersion: 
+range which is max - min
+variane
+Variance tells us  that how far away are the values from the mean
+variance = summartion of (x-xbar(mean))square/n-1 
+Standard deviation is square root of variance.
+Low standard deviation tells us that less numbers are far away from mean.
+High Standard deviation tells us that more numbers are far away from mean.
+standrad deviation : it basically tells sense of variation in the data.It is sqaure root of square of sum of deviation divide by total  observation.
+6)Life Cycle of a Data Science Project:
+Business Understanding
+Data Understanding
+Data Cleaning & Preparation
+Modelling
+Validation & Testing
+Evaluation
+Deployment
+7)Package used to find best k other then elbow method:
+fviz_nbclust(df, kmeans, method = "wss")
+8)IV value:
+We use Information package to do dimension reduction
+we use function create_info(dataframe) and selects the col with IV value 0.3 to 0.5.
+Variables with IV less then 0.3 is weak predictor and greater then 0.5 is suspicious or to good to be true 
+It is calculates as IV = sumaation of (distribution of good - distribution of bad ) * ln(disti of good/ dist of bad)
+HERE ln(disti of good/dist of bad) = WOE = Weight of evidence
+IV <- create_infotables(data=mydata, y="admit", bins=10, parallel=FALSE)
+IV_Value = data.frame(IV$Summary)
+Also it can be defined as WOE = ln(percentage of non events / percentge of events)
+eg:
+AGe : so divide into bins
+Agegroup	No of events	no of non events 	percentae of events percentage of non events  WOE IV
+1-10		
+10-20
+20-30
+30-40
+above 40 
+9) Naive Bais:
+It depends on conditional probability:
+P(c/x) = P(x/c) * P(c) / P(x)
+10) What is imbalanced data:
+It is a scenario where the number of observations belonging to one class is significantly lower than those belonging to the other classes.
+It creates issue of overfitting when we have imbalanced data
+Eg: Fraud customer it will be just 5 percent so it will imppact
+3 ways - Underfitting, Overfitting & Synthetic Data generation
+In underfitting we take 10 percent from maximum class so it will increase percentage.Disadvantage important information will be lost
+Overfitting we multiply less class with 10 time .. repeats information .. overfitting
+Best way is generating synthetic data  by using ROSE package
+data.rose <- ROSE(cls ~ ., data = hacide.train, seed = 1)$dat> table(data.rose$cls)
+13) missing values:
+mean  - continuous variables
+mode - categorical variables
+KNN_Imputation - package used is DMWR : knnImputation(data,k=6)
+MICE - library(mice) - mice_cal = mic		e(data,m=5,maxit = 5, method = 'PMM',seed = 100)
+data = complete(mice_Cal,2)
+14)multi-variant analysis :
+Now if you think about cell phone usage in general for customers, customers that tend to be high users in single month will tend to continue being high users 
+in the  second, third or the fourth month because it is behavior. Customers that tend to use the phone lot less in any month will also probably use the phone a
+ lot less in  all subsequent months. So this is what we mean by detecting outliers on the basis of multi-variant analysis rather than a single variable.
+15) Hypothesis testing:
+I made up two versions of a simple math test and gave six beers to each of about 10 guys on my dorm floor. Half of the guys took test A before drinking their 6 beers and half took test B before drinking their 6 beers. After they finished all six beers they took whichever test that they hadn’t taken before drinking the beers. The null hypothesis was that there would be no significant difference in the average scores before/after drinking the beers. The alternative hypothesis is that there would be a significant difference in average scores.
+16) What is z value?
+Z value is a measure of standard deviation i.e. how many standard deviation away from mean is the observed value.
+For example, the value of z value = +1.8 can be interpreted as the observed value is +1.8 standard deviations away from the mean.
+z = x(observed value) - mean/standar deviation 
+17) Standard Normal Distribution:
+For normal distribution : mean = mode = median
+It is a special kind of Normal distribution (Normal distribution is symmetry)
+ standard normal distribution is a distribution with a mean equal to zero and a standard deviation equals to one.
+18) significance level -  5 percent
+so if p is leess then significance level we reject null hypothesis that sample and production are same
+and accept alternate hypotehesis.
+COnfidence interval = 1  - significance level
+so 5percent significane means we are 95percent confident on our decision.
+19) 5) What is bagging ?
+Bagging, or Bootstrap Aggregating, is an ensemble method in which the dataset is first divided into multiple subsets through resampling.
+Then, each subset is used to train a model, and the final predictions are made through voting or averaging the component models.
+Bagging is performed in parallel.
+6) What is boosting?
+USed to reduce high variance, avoid over fitting and increase the accuracy
+In boosting, after the first round of predictions, the algorithm weighs misclassified predictions higher, such that they can be
+ corrected in the succeeding round. This sequential process of giving higher weights to misclassified predictions continue until a stopping criterion is reached.
+7) What is white noise?
+The white noise (WN) model is a basic time series model.It is the simplest example of a stationary process.
+A white noise model has:
+A fixed constant mean
+A fixed constant variance
+No correlation over time
+8) what is acf and pacf
+10) what is stationary and non stationary
+9) what is arimex
+10) what is manherten distance
+11) what is naive formula
+12)
+Bias-Variance Tradeoff.
+Predictive models have a tradeoff between bias (how well the model fits the data) and variance (how much the model changes based on changes in the inputs).
+Simpler models are stable (low variance) but they don't get close to the truth (high bias).
+More complex models are more prone to being overfit (high variance) but they are expressive enough to get close to the truth (low bias).
+The best model for a given problem usually lies somewhere in the middle.
+in order to decrease the variance  we use bagging and to reduce  bias we can use boosting
+8) Determing the performance of classifiers:
+Accuracy : Measures of how many observations the classifier predicted correctly
+Sensitivity : It measures the propotion of positive cases that are correctly measures as positive
+specificity : It measures the propotion of negative cases that are correctly measures as negative
+9) AUC:
+It is area under curve which acts as a consolidated measure for comparision across multiple classifiers
+10) In bias variance trade off:
+bias means how well algorithm performs on training data set
+variance means how well algorithm performs on unseen data
+A complicated model thats fits traing data perfectly will sometime do a horrible job of predicting new obsrvations.It is also called as problem of over-fitting
+Model with over fit data will have low bias and very high variance. And for model with under fit it will be vice versa i.e high bias and low variance
+13) Diff between histogram and bar chart
+histograms are used to plot the distribution of a continuous variable and bar-charts are used to plot the distribution of a categorical variable.
+14)To list functions under package 3 ways:
+help(package = dplyr)
+ls("package:caret")
+lsf.str("package:caret")
+15) What is hypothesis testing?
+It is a formal procedure that is  used to test whether a hypothesis can be accepted or not
+Hypothesis is basically an assumption about something
+eg : The average number of dogs per americal househols is two
+We basiically accept null hypothesis or reject it.
+We accept is when there is no statisctial difference i.e p > 0.05 and reject null hypothesis when there is significant difference p < 0.05
+16) what is difference between parameteric and non parametric test?
+Parametric statistics refer to a statistical method in which the data is required to fit a normal distribution.
+Nonparametric statistics refer to a statistical method in which the data is not required to fit a normal distribution.
+17) What is T test:
+A t-test is an analysis of two populations means through the use of statistical examination
+18) In confusion matrix use mode="pre_recall" for precision and recall value
+19) in normal distrubution ideally 95 percent data lies between 2 standard deviation from mean
+20) why sigmoid function in logistic regression???
+Its values lied between o and 1
+It is S-Shaped.Usually, the predictions in the classification problem are probability values. So, we don’t want our model to predict the probability value to be below 0 or above 1.
+ Sigmoid function helps to achieve that.
+21) type 1 and type2 error and which is important?
+Type I and type II errors. ... In statistical hypothesis testing, a type I error is the rejection of a true null hypothesis 
+(also known as a "false positive" finding), while a type II error is failing to reject a false null hypothesis
+ (also known as a "false negative" finding).
+ More simply stated, a type I error is to falsely infer the existence of something that is not there, 
+ while a type II error is to falsely infer the absence of something that is.
+22) 
+A measure used to represent how strongly two random variables are related known as correlation.
+ Covariance is nothing but a measure of correlation. On the contrary, correlation refers to the scaled form of covariance. 
+ ... Correlation is dimensionless, i.e. it is a unit-free measure of the relationship between variables.
+The value of correlation takes place between -1 and +1. Conversely, the value of covariance lies between -8 and +8.
+23)Central limit theorem:
+the central limit theorem says that if you take multiple random samples from an underlying population and you look at the frequency distribution 
+of the sample averages. That distribution will be normally distributed and in fact it will be normally distributed even if the underlying population 
+data is not normal.
+the standard deviation of the averages of samples has to be inversionally proportional to sample size. The larger the sample, the more likely that you will see 
+less variation in sample averages. The smaller the sample, the more likely you will see greater variation in sample averages and therefore the standard deviation 
+of the sample averages will be equal to stavndard deviation of the AAroot of sample size.
+
+what should we do first missing value treatment or outliers: we should remove outlier first and then impute missing values
+Scaling by Z score wil give value between - 1and 1
+Scaling by mean will give vallue between 0 and 1
+formula for mean and sd
+how ROC curve is plotted
+############reading ends here
+==================================================
+1)Telemetry data:
+When we capture data at lower grains ,eg how many times customer visited SQL in Microsoft Azure platform,how many hrs it spend and so on
+2) Re-using model built in R:
+ https://stackoverflow.com/questions/5118074/reusing-a-model-built-in-r
+3)Data IMbalanced
+https://www.r-bloggers.com/handling-class-imbalance-with-r-and-caret-caveats-when-using-the-auc/
+
+
+
+======================================
+Statistics:
+variance formula , sd formula, cofficient of variation formula
+-1lakh 40k, 0.668 GB file size
+-1289 columns 3 mins by using fread
+-And when used read.csv it took lot of time 20 to 30 mins
+-whenet we read from fread its class.will be data.table dataframe so convert it to data frame
+- mostly people using sapply why so?
+?by using nearZeroVar(data[,-c(1,1257)]) Will give variance which only have 1 category 
+- use of  nearZeroVar
+- find correlation we removed both ?
+- I guess here up sampling is not required
+- use of save.image and load
+- save.image is used to save complete details.of session that is data ,input ,output and so on and load.is used to load it
+=======================================================
+Questions from recordings which i don't know:
+- check for gain chart and lift curve?
+-How is p value calculated in hypothesis testing
+-In 12k 1k missing how we will handle it's important variable so we can't just remove 
+-How more weight age is given in boosting during 
+
+-In clustering we can create dummy variable ,do scaling and then use.if we don't use a scalling it will be a problem as age will of diff unit
+ and education will be of different unit
+- does no of leaf in decision tree or random forest helps in over fitting or in general how to avoid over fitting in data
+- what tunning parameters we use in regression problem in random forest
+- in logistic regression if even rate is less what metric can be used to validate 
+I guess Expected answer is F1
+
+- why to use VIF when multicollinearity issue can be resolved via cor function
+- what is semi supervised learning?
+Eg if we have millions of male and for few data we have label if it's spam. Or not spam so we can  use bootstrap and label other dataset.This is called semi supervised learning
+- For decision tree split for regression check 4th T1.4 video of Random forest section in jigsaw videos
+-  for pca and l1,l2 regularisation check 
+T3.4 video of Random forest section in jigsaw videos
+-  Other benefits of using mtry is it de-correlates the trees
+-  no of trees try default 500,half and try,double the default and try and select which gives less error
+- 
+
+
+======================================================
+
+1)Statistical.model concepts for feature selection
+2)If 1 categorical variable is important but 8k out of 10k missing how to handle.Also how it work for continuous
+
+5)why use k means and not others
+6)jackard distane and k centroid for categorical variables
+7) what is auto correlation
+8) what is optimisation techniques in random forest
+9)diff between bagging and RF
+10) how boosting gives more weight to misclassified data points
+11) if we have less event rate 2 percent what metric we will use to validate
+I guess he talking about F1
+12) 4  classes ,2,2,44,52 percent what metric we will use to create a model
+13) how p value calculated and how it says variable is significant or not
+How p value is calculated
+14) what is non linear algorithm ?
+Is svm linear or non linear
+15) disadvanatgss of multicollinearity
+16)
+
+
+
+==============================================
+
+Advantages of using a sigmoid function for classification over a linear function.
+In normal.distributiin ideally 95 percent data lies between 2 stand Devi from mean
+
+https://initiativetowardsdatascience.wordpress.com/2018/04/12/case-study-for-customer-chunk-of-loan-defaulter/
+
+What is R Shiny?
+
+http://www.statisticshowto.com/probability-and-statistics/t-test/
+
+
+
+Gradient descent
+Mode="prec_recall"
+
+Map_df function can.be used for.taking multiple.files and append them in single dataframe
+
+What is telemetry data
+
+=====================
+///////Bristlecone interview///////////
+in bagging bossting how are weak predictors been handled?
+
+der was 30 features then it came to 10 variable , in that some are weak predictors how it work differently in bagging and boosting
+
+///////Bristlecone interview///////////
+
+
+
+==============================
+General:
+https://analyticsindiamag.com/common-analytics-interview-questions/
+https://www.dezyre.com/article/life-cycle-of-a-data-science-project/270
+
+Clustering:
+how to use elbow method from library instead of plotting
+diff types of distance calculation in clustering?
+how to decide k value in clustering?
+https://uc-r.github.io/kmeans_clustering
+
+RF:
+1) how boruta algorithm works internally
+https://www.listendata.com/2017/05/feature-selection-boruta-package.html
+7) what is default mtry we use in random forest? how do we control complexity in Random forest ? do we face overfit of data in R?
+how random forest works internally to check there is no overfit of data in R. how much time for loop takes it to run 
+http://www.listendata.com/2014/11/random-forest-with-r.html
+https://www.analyticsvidhya.com/blog/2016/04/complete-tutorial-tree-based-modeling-scratch-in-python/
+smote and rose sampling technique
+
+Dimension Reduction:
+https://www.analyticsvidhya.com/blog/2016/03/practical-guide-principal-component-analysis-python/
+
+Information Value:
+Why IV value 0.4 better then 0.1 and not 0.1 is better then 0.4
+how is VIF, PCA different from IV?
+http://ucanalytics.com/blogs/information-value-and-weight-of-evidencebanking-case/
+https://www.listendata.com/2015/03/weight-of-evidence-woe-and-information.html
+
+how to avoid overfitting in random forest?
+https://datascience.stackexchange.com/questions/6380/how-to-avoid-overfitting-in-random-forest
+https://www.youtube.com/watch?v=HBnTRcguzl0
+
+imbalanced data:
+https://www.analyticsvidhya.com/blog/2016/03/practical-guide-deal-imbalanced-classification-problems/
+https://www.analyticsvidhya.com/blog/2017/03/imbalanced-classification-problem/
+
+Bagging and boosting:
+https://www.analyticsvidhya.com/blog/2017/02/introduction-to-ensembling-along-with-implementation-in-r/
+http://dni-institute.in/blogs/tag/bagging-example-using-r/
+https://support.bigml.com/hc/en-us/articles/206739539-What-is-the-difference-between-Bagging-Random-Decision-Forest-and-Boosted-Tree-Which-one-should-I-use-
+https://www.analyticsvidhya.com/blog/2016/01/xgboost-algorithm-easy-steps/
+https://www.hackerearth.com/practice/machine-learning/machine-learning-algorithms/beginners-tutorial-on-xgboost-parameter-tuning-r/tutorial/
+
+
+naive bais:
+https://www.analyticsvidhya.com/blog/2017/09/naive-bayes-explained/
+
+missing value imputation:
+http://r-statistics.co/Missing-Value-Treatment-With-R.html
+
+Kaggale solutionS:
+https://www.kaggle.com/kmsravindra/titanic-solution-in-r/code
+http://dataaspirant.com/2016/10/06/most-popular-kaggle-competition-solutions/
+http://dataaspirant.com/2016/10/06/most-popular-kaggle-competition-solutions/
+https://github.com/ageek/kaggle/tree/master/2015-Kaggle/otto-group-product-classification
+
+xgboost:
+https://github.com/rachar1/DataAnalysis/blob/master/xgboost_Classification.R
+	 

@@ -1,0 +1,498 @@
+diff types of sampling?
+
+Revise this piece again and again  for interview:
+1) How findcorrelation function works?
+the function looks at the mean absolute correlation of each variable and removes the variable with the largest mean absolute correlation." 
+So in other words, it chooses one of the two variables based on how correlated it is with all the other variables.I.e it keeps variable 
+which is least correlated with other variables
+2)PCA:
+It is always performed on a symmetric correlation or covariance matrix. This means the matrix should be numeric and have standardized data.
+When  we have a large p = 50, p is no of predicted variable ...there can be p(p-1)/2 scatter plots i.e more than 1000 plots possible to analyze the variable relationship. 
+First principal component is a linear combination of original predictor variables which captures the maximum variance in the data set.
+No other component can have variability higher than first principal component.
+The first principal component results in a line which is closest to the data i.e. it minimizes the sum of squared distance between a data point and the line.
+Similarly, we can compute the second principal component also.
+Second principal component (Z²) is also a linear combination of original predictors which captures the remaining variance in the data set
+and is uncorrelated with Z¹. In other words, the correlation between first and second component should is zero. 
+If the two components are uncorrelated, their directions should be orthogonal 
+Orthogonal means perpendicular to each other .. i.e makes a right angle
+All succeeding principal component follows a similar concept i.e. they capture the remaining variation without being correlated with the previous component. 
+In general, for n × p dimensional data, min(n-1, p) principal component can be constructed.
+The directions of these components are identified in an unsupervised way i.e. the response variable(Y) is not used to determine the component direction.
+Therefore, it is an unsupervised approach.Partial least square (PLS) is a supervised alternative to PCA.
+PLS assigns higher weight to variables which are strongly related to response variable to determine principal components.
+PCA is performed on Normalised data ... as data might be in different scales so Performing PCA on un-normalized variables will lead to insanely large loadings for 
+variables with high variance.In turn, this will lead to dependence of a principal component on the variable with high variance. This is undesirable.
+#principal component analysis
+> prin_comp <- prcomp(pca.train, scale. = T)
+> `(prin_comp)
+[1] "sdev"     "rotation" "center"   "scale"    "x"
+The prcomp() function results in 5 useful measures:
+1. center and scale refers to respective mean and standard deviation of the variables that are used for normalization prior to implementing PCA
+3) why it is  better to remove correlated variable before PCA?
+Its better else variance explained  by a particular components gets inflated.
+4) AutoCorrelation function(acf):
+In plot if all line  or spike is within blue ---- (dotted  line) means obseravtions are not corelated to each  other.And if its above line it is correlated.
+Another way is to do ljung - box test:
+	- p value is small (less then 0.05) means the data is not white nosie, means data is not independt and is serial autocorrelation.
+	- so for good model it should be greater then 0.05
+5) How  to partition data in time series forecasting?
+To partition the data for train  and test in time series we can use window function as below:
+train<- window(dataset,start = c(1962,1),end =c(1972,1),  frequency = 12)
+test<- window(dataset,start = c(1972,1),end =c(1974,12),  frequency = 12)
+6) Type1 & 2 error:
+Type 1 and type 2:
+We reject null hypothesis when we should not is type1.
+We retain null hypothesis when we should reject it.
+Type 1 is False positive	and Type2 is False negative
+Eg of Type1 is - Person is suffering from cancer .. actually he doesn'type
+Eg of Type2 is - Person doesnt suffer from cancer .. but actually he does
+So it depends on business to business scenario but most of time type 2 error is 
+more important then type1 error
+7)Few important stuffs of python:
+by using type(df) we can find the datatypes
+now to acess dataframe : for one col df['W'] .. it will return series and when 2 col df[['W','X']] .. it will return dataframe
+To insert a new col: df['newcolname'] = df['W'] + df['X'] 
+for dropin a col df.drop('newcolname',axis=1,inplace=True) .. here axis = 0  means dropping a row and axis = 1 means dropping a col,inplace means delete permanently
+Row access:
+df.loc['W'] ...selecting rows on basis of row name
+df.iloc[2]  ...selecting rows on basis of row index
+row and col acces:
+df.loc['w','A'] .. w row and a col ...now to return subset we will pass list of row and col names df.loc[['A','B'],['W','X']]
+8) How to do sacling or standardized data by z score using some function?
+use  package vegan and function decostand
+df_imputed_num1 = decostand(df_imputed_num, "standardize")
+9)How to transpose 
+use reshape2() function . Actual data is wide format
+To convert data from wild format to long format we use function melt() and to convert data from long format to wild format we use function dcast()
+10) Which package is used for naive bayes
+#use package e1071 to use naive bais.also same package is used for svm
+11)Naive Bayes:
+It works on Bayes theorem of probability to predict the class of unknown data set.
+It is used basically for text classfication.As in text each word acts as a feature so we have huge number  of features
+Its very simple model compared to other as its simply take the independent features assumption of Naive Bayes
+It requires less training data and less model training time
+The NB models cannot represent complex behavior so it won’t get into over fitting.
+So, When your data is dynamic and keeps changing. 
+NB can adapt quickly to the changes and new data while using a RF you would have to rebuild the forest every time something changes.
+12)k-Nearest Neighbors:
+it is suitable for data with less number of dimensionsIt is also classfication model like logistic and naive baiys
+understanding with eg : suppose der are 4 rooms 2 belongs to middle class 2 bhk with diff sq ft and 
+2 upper class. so to find which class 5th house belons to.
+- calculate distance between point 5 with each point i.e 1,2,3,4.then sort these points according to distance out of this points pick k 
+no of points which are closest to point 5.in this case if we take k to be 2. we can say  now point 1 and 2 closest to point  5 and 
+since point 1 and 2 belongs to middle class category 5 wil also belong
+to middle class categorya
+13) What is SVM?
+In this algorithm, we plot each data item as a point in n-dimensional space (where n is number of features you have)
+The goal of svm is to Produce a decision boundary or hyperplane  that is a far away as possible from both the classes.
+In simple 2D problem decision boundary is a straight line.
+For a 3D problem the decision boundary is a plane whereas for higher dimensions it is a hyperplane.
+Another lightning reason for selecting the hyper-plane with higher margin is robustness.
+If we select a hyper-plane having low margin then there is high chance of miss-classification.
+SVM has a feature to ignore outliers and find the hyper-plane that has maximum margin. Hence, we can say, SVM is robust to outliers.
+14) what happen when data is not linear how we will create boundary?
+We will use kernels.Its of 3 types
+15)Parameters to set in SVM:
+kernel, gamma and Cost value.
+kernel : 3 types “linear kernek”, “rbf kernel”,”poly kernel” .rbf and poly is used for non linear.default is rbf kernel
+.poly stands for polynomial , rbf for radial or gaussian kernel
+go for linear kernel if you have large number of features (>1000) because it is more likely that the data is linearly separable in high dimensional space.
+less featurs , non linear then use non linear kernels mostly radial kernels also named as gauusian
+Cost of error which is penalty for making error.larger value of c higher penalty
+cost = C * errors
+16) How to handle multi classification problem in SVM
+SVM's are binary claasifier.It handle multi class classification problem by training a series of binary support vector machines.
+To do this there are 2 ways one versus all classification OR one verus one classification.
+Lets say eg of one verus all classification.Suppose there are 3 classes A,B,C.Now what we do is we recode  our response variable we mark category with B and C to not A
+So now we have 2 classes A and not A.So now its binary problem so we simply run SVM for this.Now we combines A and C and create as not B.So we  have B and Not B again we 
+run SVM.NOw we do same for C.Now we get score for each  classfier.So the class which has the highest score will be given to the new element
+Now in one to one classification we subest data for clases A and B.So now its binary classification with 2 classes A  and B.Then train binary SVM.
+in second we subest only A and C and do  same.For third only B and C then run SVM again.Now for new observations we run each classifier and  classfier with greater
+prediction is given the class.
+17)In which case SVM should be used:
+Basically when we have huge number of dimensions , almost equal to or greater then number of samples
+It doesn’t perform well, when we have large data set because the required training time is higher
+18)Define sensitivity ,specificity, recall , precision
+Sensitivity OR Recall: It measures the propotion of positive cases that are correctly measures as positive
+specificity : It measures the propotion of negative cases that are correctly measures as negative
+19) Important R function for SVM:
+tuning the svm for getting the best fit parameters for gamma and cost
+tuned = tune.svm(Survived~., data = trainData, gamma = seq(.1,0.5,0.1), cost = seq(1,60,10))
+tuned$best.parameters
+model <- svm(Survived~., data = trainData, gamma = 0.1, cost = 1, type = "C-classification")
+20) what does XGBoost stands for?
+“XGBoost” is a short form for Extreme Gradient Boosting
+Below are reason its superior then other models,
+Parallel Computing: It is enabled with parallel processing (using OpenMP); i.e.,
+ when you run xgboost, by default, it would use all the cores of your laptop/machine.
+Regularization: I believe this is the biggest advantage of xgboost. GBM has no provision for regularization. 
+Regularization is a technique used to avoid overfitting in linear and tree-based models.
+Enabled Cross Validation: In R, we usually use external packages such as caret and mlr to obtain CV results.
+ But, xgboost is enabled with internal CV function
+ Missing Values: XGBoost is designed to handle missing values internally. 
+ The missing values are treated in such a manner that if there exists any trend in missing values, it is captured by the model.
+In R, xgboost package uses a matrix of input data instead of a data frame.
+21) what diff parameters we set in XGB
+General Parameters,Booster Parameters and Learning Task Parameters
+General Parameters: wheter classification or regression
+Booster - CV,ridge,laso
+22) Next I don't see the xgboost R package having any inbuilt feature for doing grid/random search. To overcome this bottleneck, 
+ we'll use MLR to perform the extensive parametric search and try to obtain optimal accuracy.So we can use XGBOOST with Mlr package to get further better accuracy.
+23) Define boosting:
+Definition: The term ‘Boosting’ refers to a family of algorithms which converts weak learner to strong learners.
+3 types of  boosting -  Adaboost( (Adaptive Boosting), GBM(Gradient Tree Boosting) and XGB(Xtreme gradient boosting)
+To convert weak learner to strong learner, we’ll combine the prediction of each weak learner using methods like:
+•   Using average/ weighted average
+•   Considering prediction has higher vote
+24)  with & by function 
+With is basically used to write more cleaned code
+eg : instead of plot(mtcars$wt, mtcars$qsec) we can write with(mtcars, plot(wt, qsec))
+by:
+It gives the same  output as tapply i.e group by factor variable and get mean or sum or other stuffs for each group
+by(mydata, mydata$byvar, function(x) mean(x))
+25)Text Quotes , number 
+df <- read.table("test.txt",sep = "\t",,colClasses = c("character","factor"))
+So by using colclasses we can restrict the datatype of variables we importing
+26) K means clustering process:
+Lets say eg : A shopper shop manager comes to you and say I want to give discounts to 3 different sets of homogeneous customers.To 1st set I will 
+give 10% to other 5% and to 3rd as 3%. So I  will create 3 different clusters.Process to create 3 different cluster is:
+Now we want to make 3 different clusters.
+Step1 : so we will select 3 random observations which are at extreme distance from each other as the seed .
+Step2 : Find distance of all the observations to each seed using euclidean distance i.e (X2-x1) square plus (y2-y1) square
+Step3 : Then move the observations to its nearest  clusters based on the distance calculated.Its end of Iteration 1
+Step4 : Now we need to move ahead with 2nd iteration so we find centroid. We calculate it by x1+x2...Xn/n and y1+y2+...yn/n
+Step5 : Now this centroid is not a new data points but will act as a reference point.So now we will again find the distance of all the observations
+		to centroid and then repeat the same step and keep on creating clusters.
+Step6 : In each iteration data points keep moving from 1 cluster to the other cluster. It usually takes around 20-25 iterations to come to stable solution 
+before finalising the clusters.
+Typically, in a normal real life data mining situation, the algorithm will take anywhere from 5 to 25 iterations in order to arrive at a stable solution.
+27)how Distance between 2 clusters are found and which is best ?
+1st is euclidean distance - euclidean distance = square root of ( summation of x2-x1 square + y2-y1 square)
+2nd is Manhattan distance - Instead of sqr root and square we will use modulous |x2-x1| + |y2-y1|
+Manhattan distance (L1 norm) may be preferable to Euclidean distance (L2 norm) for the case of high dimensional data
+28)How to measure the distance between 2 clusters.
+There are 3 different methods that can be used to measure the distance between clusters. 
+Single linkage,Complete linkage and Centroid linkage
+Single:In the single linkage method, the distance between 2 clusters is given by the distance between the closest members of those 2 clusters
+Complete: In this method, the distance between 2 clusters is given by the distance between their most distant members.
+Centroid : This is the most commonly used method where the distance between 2 clusters is measured by the distance between the centroids of the 2 clusters.
+29)Hierarchical clustering:
+how we define 2 points or clusters are similar is using dissimilarity measure.
+Dissimilarity measure is calculated using the Euclidean distance formula.
+dij = sq root of xi-xj squae + yi-yj square(Euclidean distance)
+Let suppose we have 5 observations A,B,C,D,E so  clusters. now we calculate Dissimilarity measure and find distance between A and B is lowest 
+so we will combine A&B.So now we wil have 4 clusters one for A,B and another for C,D E.
+A dendrogram is a representation of the hierarchical clustering algorithm.
+30) Kmeans versus Hierarchical clustering
+Hierarchical clustering can’t handle big data well but K Means clustering can.
+K Means clustering requires prior knowledge of K i.e. no. of clusters you want to divide your data into. 
+But, you can stop at whatever number of clusters you find appropriate in hierarchical clustering by interpreting the dendrogram
+As the number of records increase the performance of hierarchical algorithm goes decreasing and time for execution increased .
+ K-mean algorithm also increases its time of execution but as compared to hierarchical algorithm its performance is better.
+Hierarchical algorithm shows more quality as compared to k-mean algorithm. As general conclusion, k-mean algorithm is good for large dataset
+ and hierarchical is good for small datasets. But in real world we usually end up using k means clustering as we have large dataset
+ fit.km <- kmeans(sample[,7:12],3)
+ fit.km$tot.withinss
+31)Scaling:
+Scaling is basically the concept of adjusting the values of the variables to take into account the fact that different variables are measured on very different scales.
+in order to do effective clustering, we need to adjust the variables to a common scale.
+eg : no of childdrfen versus income ..childrens can be 1,2,3,4 but income as 10000,20000,30000 and so on.
+There are three different methods of scaling we will study. The third method; which is the z-score method or the standardization method is the most effective
+ and most commonly used.
+so in 1st method for each variable we will replace by : variable value - least value in it/ (max-min).so in this way we wil get same scale for both variables
+in 2nd method simply divide the variable by mean
+3rd method : Let's look at the third method. This is also called normalization of variables or z-scoring of variables or converting them to Z-scores.
+subtract the mean from each variable and then divide it by the standard deviation
+32) Gini Calculation:
+In Gini : Steps to Calculate Gini for a split
+Calculate Gini for sub-nodes, using formula sum of square of probability for success and failure (p^2+q^2).
+Calculate Gini for split using weighted Gini score of each node of that split
+Split on Gender:
+Calculate, Gini for sub-node Female = (0.2)*(0.2)+(0.8)*(0.8)=0.68
+Gini for sub-node Male = (0.65)*(0.65)+(0.35)*(0.35)=0.55
+Calculate weighted Gini for Split Gender = (10/30)*0.68+(20/30)*0.55 = 0.59
+Similar for Split on Class:
+Gini for sub-node Class IX = (0.43)*(0.43)+(0.57)*(0.57)=0.51
+Gini for sub-node Class X = (0.56)*(0.56)+(0.44)*(0.44)=0.51
+Calculate weighted Gini for Split Class = (14/30)*0.51+(16/30)*0.51 = 0.51
+Above, you can see that Gini score for Split on Gender is higher than Split on Class, hence, the node split will  take  place on Gender
+33)decision tree and random forest formula:
+mod <- rpart(Target~.,data=dm[-9],control=rpart.control(cp=0.002,maxdepth=7),method="class",parms=list(split="gini"))
+method - Anova for regression
+fit.rf <- randomForest(Alert~.,data=data,mtry=best.m,ntree=500,importance=TRUE)
+34) package used for variable reduction:
+VarSELRF : In this it runs a random forest with all variables and find OOB error.It then sequentially reduces no of variables and computes OOB in each step.
+using importance function :  Measures of variable importance:
+Mean Decrease Gini : so high mean decrease gini  means high importance  the variable is for the classification
+Mean Decrease Accuracy : It means by including this variable how much of the classficiation error of the model gets reduced
+35) Factors to see in linear regression coeefient table:
+   1.coefficinets which we seen value of beta0 and beta1
+	2.p value- Because the p value is very, very low, we reject the null hypothesis that the coefficient on gestate is actually equal to zero.
+	3.There is standard error, there is t statistic, and there are confidence intervals. : lower error ,  the narrower the ranger of the confidence interval .. better themodel 
+	4.Rsquare:R2 explains what is the proportion of the variance in Y that is being explained by X.
+	The higher the R2 obviously the more variation in Y you are able to express and therefore the better your model is
+	5.Adjusted R2:  adjusted R2 typically will go up only if significance variables are added to the model.
+	6.Anova table:in an ANOVA table essentially what we are checking for is whether or not at least one of the Beta coefficient is different from zero.
+	7.Fit chart: Actual versus fitted values
+	So we will draw a line chart between actual and predicte values .i.e fitted values and expect it to be  overlapping with each other.This is called a FIT chart.
+	Remember, if we have a  good model we would expect to see the actual values and the predicted values to be very close to each other, very similar.
+	8.MAPE - Mean absolute percentage error
+	The averge absolute difference between actual and predicted values generated the MAPE
+	= ABS((actualgrams-predictedgrams)/predictedgrams)
+	you may want to see absolute percentage errors 5% or lower.
+36)Regression asumptions:
+	-  Check for linearity - plot the residuals against each IV
+	if data is linearly related,we should see no pattern in the plot
+	-  The residuals(error) should have constant variance - homoscedasticity
+	Plot the residuals against predicted Y - there should be no pattern
+	- Multivariate normality : The residuals are normally distribited
+	You should ideally see a probability plot or a histogram which is normally distributed for the errors.
+	- The IVS are not too correlated - multicollinearity
+	The IVS should not be highly correlated to one another
+	Higher than 40%, 50% or 60% correlations essentially means that the independent variables are highly correlated, in which case we have a 
+	problem called multicollinearity.
+	- no auto correlation ;: there should be no correlation between residuals(error) terms
+37) Python Linear Regression
+To impute missing values:
+dataset.fillna(dataset.mean(), inplace=True)
+To divide into train & test:
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=101)
+Import LinearRegression 
+from sklearn.linear_model import LinearRegression
+lm = LinearRegression()
+lm.fit(X_train,y_train)
+predictions = lm.predict( X_test)
+Calculate MSE:
+from sklearn import metrics
+print('MAE:', metrics.mean_absolute_error(y_test, predictions))
+print('MSE:', metrics.mean_squared_error(y_test, predictions))
+print('RMSE:', np.sqrt(metrics.mean_squared_error(y_test, predictions)))
+To find coefficient value:
+lm.coef_
+lreg.score(x_cv,y_cv)
+38) How to do for multi classification:
+# train$out <-  relevel(train$Segment,ref="1")
+# library(nnet)
+# 
+# 
+# mod = multinom(out~mon+Var4+var5+Var11+Var12+Var13+Var14+
+#                  P2_Ratio+P3_Rat+P4_Ratio+P5_Ratio,
+#                data = train)
+# test$Segment = as.factor(test$Segment)
+# pred = predict(mod,test)
+# 
+# #misclassification error
+# cm <- table(pred,test$Segment)
+# #calculate error
+# 1-sum(diag(cm))/sum(cm)  
+39)Below Modification need to be done when we use ordinal logistic regression#
+#1) we will convert target variable to ordinal variable as ,
+# data$Segment <- as.ordered(data$Segment)
+# 2) ordered logistic regression or proportional odds logistic regression.No need to set reference(using relevel functiono) as 1st variable as we do in multinominal
+# use library(MASS)
+# mod = polr(train$Segment~var1+var2 and so on,data = train,Hess = TRUE)
+# Here hess is true will print standard errors also
+40)What is diff between co-variance and correlation
+Covariance is a measure of how much two random variables vary together. 
+It’s similar to variance, but where variance tells you how a single variable varies, covariance tells you how two variables vary together.
+Note: co = together, variance = vary
+Equation for co variance is summation of (x-xbar)(y-ybar)/N ... N is total no of observations
+Now its important to know the scale of X and Y.Suppose we want to know the asssociation or covariance between height and weight.
+Let say K is kg and Y is in cm.SO now output unit will be = 200 Kg * cm
+Now suppose we also want to calculate co variance between weight and age so output of unit will be = 120 kg*year
+Now can we say weight and height are more correlated.Know we can;t as there units are different.
+Correlation cofficient actually fixed this problem as because it will standardize two different units.
+It is calculated as - covariance of (x,y)/ [standard deviation of x * standard deviation of y]
+And its value lies between 0 and 1 but co variance value lies between - infinity to + infinity
+41)scaling values:
+Scaling by Z score wil give value between - 1and 1
+Scaling by mean will give vallue between 0 and 1
+sacling  by mean simply  mean divide variable by mean
+42)Central limit theorem:
+the central limit theorem says that if you take multiple random samples from an underlying population and you look at the frequency distribution 
+of the sample averages. That distribution will be normally distributed and in fact it will be normally distributed even if the underlying population 
+data is not normal.
+the standard deviation of the averages of samples has to be inversionally proportional to sample size. The larger the sample, the more likely that you will see 
+less variation in sample averages. The smaller the sample, the more likely you will see greater variation in sample averages and therefore the standard deviation 
+of the sample averages will be equal to stavndard deviation of the AAroot of sample size.
+43) What is T test:
+A t-test is an analysis of two populations means through the use of statistical examination
+T test is used when sample size is  less then 30. Z when more then 30
+F test is nothing but Anova
+44)What is hypothesis testing?
+It is a formal procedure that is  used to test whether a hypothesis can be accepted or not
+Hypothesis is basically an assumption about something
+eg : The average number of dogs per americal househols is two
+We basiically accept null hypothesis or reject it.
+We accept is when there is no statisctial difference i.e p > 0.05 and reject null hypothesis when there is significant difference p < 0.05
+I made up two versions of a simple math test and gave six beers to each of about 10 guys on my dorm floor. 
+Half of the guys took test A before drinking their 6 beers and half took test B before drinking their 6 beers. '
+After they finished all six beers they took whichever test that they hadn’t taken before drinking the beers. 
+The null hypothesis was that there would be no significant difference in the average scores before/after drinking the beers.
+ The alternative hypothesis is that there would be a significant difference in average scores.
+45) what is difference between parameteric and non parametric test?
+ParametriIV value:
+We use Information package to do dimension reduction
+we use function create_info(dataframe) and selects the col with IV value 0.3 to 0.5.
+Variables with IV less then 0.3 is weak predictor and greater then 0.5 is suspicious or to good to be true 
+It is calculates as IV = sumaation of (distribution of good - distribution of bad ) * ln(disti of good/ dist of bad)
+HERE ln(disti of good/dist of bad) = WOE = Weight of evidence
+IV <- create_infotables(data=mydata, y="admit", bins=10, parallel=FALSE)
+IV_Value = data.frame(IV$Summary)
+Also it can be defined as WOE = ln(percentage of non events / percentge of events)
+eg:
+AGe : so divide into bins
+Agegroup	No of events	no of non events 	percentae of events percentage of non events  WOE IV
+1-10		
+10-20
+20-30
+30-40
+above 40 c statistics refer to a statistical method in which the data is required to fit a normal distribution.
+Nonparametric statistics refer to a statistical method in which the data is not required to fit a normal distribution.
+46)Diff between histogram and bar chart
+histograms are used to plot the distribution of a continuous variable and bar-charts are used to plot the distribution of a categorical variable.
+47) What is z value?
+Z value is a measure of standard deviation i.e. how many standard deviation away from mean is the observed value.
+For example, the value of z value = +1.8 can be interpreted as the observed value is +1.8 standard deviations away from the mean.
+z = x(observed value) - mean/standar deviation 
+48)Life Cycle of a Data Science Project:
+Business Understanding
+Data Understanding
+Data Cleaning & Preparation
+Modelling
+Validation & Testing
+Evaluation
+Deployment
+49)How to avoid overfitting?
+Tuning model parameters is definitely one element of avoiding overfitting but it isn't the only one. 
+Control validation  is other way 
+Choosing your best model based on CV results will lead to a model that hasn't overfit, which isn't necessarily the 
+case for something like out of the bag error. The easiest way to run CV in R is with the caret package. A simple example is below:
+ library(caret)
+> data(iris)
+> tr <- trainControl(method = "cv", number = 5)
+> train(Species ~ .,data=iris,method="rf",trControl= tr)
+More mytry can also lead to overfit.so need  to find optimum number
+nodesize(tree depth) from R random forest package : Try to keep it as low
+Minimum size of terminal nodes. Setting this number larger causes smaller trees to be grown (and thus take less time). 
+Note that the default values are different for classification (1) and regression (5).
+50) What is imbalanced data:
+It is a scenario where the number of observations belonging to one class is significantly lower than those belonging to the other classes.
+It creates issue of overfitting when we have imbalanced data
+Eg: Fraud customer it will be just 5 percent so it will imppact
+3 ways - Underfitting, Overfitting & Synthetic Data generation
+In underfitting we take 10 percent from maximum class so it will increase percentage.Disadvantage important information will be lost
+Overfitting we multiply less class with 10 time .. repeats information .. 
+ use function : ovun.sample  ..under that use method as under or over
+Best way is generating synthetic data  by using ROSE package
+data.rose <- ROSE(cls ~ ., data = hacide.train, seed = 1)$dat> table(data.rose$cls)
+51)Gain chart and lift curve
+Lift / Gain charts are widely used in campaign targeting problems. 
+This tells us till which decile can we target customers for an specific campaign. 
+Also, it tells you how much response do you expect from the new target base.
+It tells us how effective is the classification model.
+In logistic model we have probability score for each obervation.So  what we do is we sort the data in descending order of the probability.
+We create 10 deciles from top. Each deciles contain 10% of the data.So we take 1st decile and check what is the percentage of bad in 1st decile.
+And we do this for all deciles and we found below
+Decile 				% of Bad
+10%						25  - So lift here is 250% as it should be 10 but it is 25
+10%						19
+10%						16
+10%						13
+10%						9
+10%						8
+10%						7.8
+10%						7.8
+10%						6.4
+10%						6.4
+Now if we dont use any model and we simply chosse god and bad by toss then  in  each decile we will have 10% bad out of total 100% bad customers
+But as we have  used model in 1st decile I am gettting 25%.It means model is doing good.So as we see in 40% of data we are able to catch 73% bad customers.
+If  we might  have  not used model it might have been just 40%.So der is gain of almost 33%. So we draw gain chart by in x axis is decile and in 
+y axis is %of Bad
+To create gain chart in R use below code:
+gains(test$Target,predict(mod2,type = "response",newdata=test),groups=10)
+test$prob <- predict(mod2,type = "response",newdata=test)
+quantile(test$prob, prob = c(0.10,0.20,0.30,0.40,0.50,0.60,0.70,0.80,0.90,1))
+targeted <- test[test$prob > 0.7326 & test$prob <= 0.99,"Cust_Id"]
+52) What is  nayes bayes assumption?
+It is a classification technique based on Bayes' Theorem with an assumption of independence among predictors. 
+In simple terms, a Naive Bayes classifier assumes that the presence of a particular feature in a class is unrelated to the presence of any other feature.
+53)How we decide number of random trees to be used in random forest?
+Simply run random forest model. Then pass the model to  plot function.. it will plot a map between error and no of tree.From where we come  to know at what number of
+trees our error doesn't fall further.
+54) How is OOB error other than prediction error?
+OOB is actually calculated on bootstrap samples.In RF  around 33% of data of RF is not used and kept for testing and this is also the  reason it doesnt suffer from overfitting
+54) How random forest helps in low bias and variance
+low bias as  we are creating multiple trees so we get more better prediction as we take voting or average to do a final prediction
+low variance : as each bootstrap sample is divided into  66% and 34% so our data  is tested in various unseen data i.e each decision tree is tested on 1/3 rd of data.
+55) Working of importance function in RF?
+we can check important variable using importance function. simply write as importance(model_rf) & to plot it varImpPlot(model_rf)
+In outout  we will have mean decrease gini value  which says  higher the value of mean decrease gini for a variable , better is the variable for our prediction.
+56) How to create confusion matrix without using confusion matrix function?
+simply use tab <- table(predictedvalue,actualvalue)
+And to find accurary sum(diag(tab))/sum(tab)
+56)what is cost function for linear and logistic regression?
+For linear regression  it is MSE(Mean square error) also called as l2 error, which is calcualted as square of summation of (Actual Value  - Predicted Value) / Total no of observations
+1/n * summationof(i = 1 to n) (yi - ymeani)square
+Another loss function for linear is mean absolute error also called as L1 error.
+For logistics regression it is cross entropy(also called as logloss)  which we try to decrease..basically when our predicted probability is very far away from actual 
+than cross entropy goes high.
+Expectation of different cost function:
+- maximize the posterior probabilities (e.g., naive Bayes)
+- maximize a fitness function (genetic programming)
+- maximize the total reward/value function (reinforcement learning)
+- maximize information gain/minimize child node impurities (CART decision tree classification)
+- minimize a mean squared error cost (or loss) function (CART, decision tree regression, linear regression, adaptive linear neurons, ...
+- maximize log-likelihood or minimize cross-entropy loss (or cost) function
+- minimize hinge loss (support vector machine)
+57)How to select acf and pacf?
+We apply acf and pacf plot only on stationary data.So if data  is not stationary make it stationary before applying it to the data.
+We have 2 compoents AR and MA.
+AR = p = Its value is found using pacf plot.Here actually we look for if values are autocorrelated to each other`
+MA =  q = Its value is  found using acf plot.Here actually we look how errors are correlated.
+In  plot x  is our lag and y axis is auto correlation value.Below are few scenario 
+	 when 1st plot(i.e at lag1) is above 95% confidence bands i.e red dotted line and other are near to zero that is drastic down its AR 1
+	 when 1st and 2nd plot(ie at lag1 and la2) is above 95% confidence bands i.e red dotted line and other are near to zero that is drastic down after 2nd plot than its AR2
+	 Similarly when we have 3 plot above red line and 4th below red line in  acf plot we say it to be MA3.while considering 3 we are eliminating 0
+	 Similarly the way we did for AR we will  do for  MA  to find order of  MA.Just one thing acf plot start from lag0 and pacf start from 1
+Some more points:
+In acf plot we look for relation between suppose current data with lag1, lag2 , lag3
+But in acf plot we find error(residuals) between current data and  lag1,lag2,lag3 and then plot between  residuals and the value at lag4.so it gives pacf between
+current data and  lag4
+58)dplyr Function	Description	 
+select()	Selecting columns (variables)	
+filter()	Filter (subset) rows.	
+group_by()	Group the data	
+summarise()	Summarise (or aggregate) data	
+arrange()	Sort the data	ORDER BY
+join()	Joining data frames (tables)	
+mutate()	Creating New Variables
+https://www.listendata.com/2016/08/dplyr-tutorial.html
+58) How to read multiple csv files?
+For multiple read and write csv:
+library(qdap)
+mcsv_w(aa,bb, dir = getwd())
+mcsv_r(file.path(a, nms), paste0("foo.dat", 1:2))
+59)
+To read multiple text file in R:
+Using purrr::map_df() and readr::read_table2() from the tidyverse package:
+60)what are different types of correlations?
+Usually, in statistics, we measure four types of correlations: Pearson correlation, Kendall rank correlation, Spearman correlation, 
+and the Point-Biserial correlation. 
+Pearson r correlation: Pearson r correlation is the most widely used correlation statistic to measure the degree of the relationship between linearly related variables. 
+Assumptions for pearson correlation cofficient:
+For the Pearson r correlation, both variables should be normally distributed (normally distributed variables have a bell-shaped curve).  
+Other assumptions include linearity and homoscedasticity. 
+ Linearity assumes a straight line relationship between each of the two variables and homoscedasticity assumes that data is equally distributed about the regression line
+ https://www.statisticssolutions.com/correlation-pearson-kendall-spearman/
+ Other types of correlation are non parametric
+61) what are different ways to debug code in r
+   1st way  is using functiona - traceback()
+   2nd way debug function
+62) Information value
+Information value is one of the most useful technique to select important variables in a predictive model. 
+It helps to rank variables on the basis of their importance. 
+The IV is calculated using the following formula : IV = summation (% of events(distribution of good) - % of non events(distribution of  bad) * WOE.
+WOE = ln(% of event/ % of non  event)
