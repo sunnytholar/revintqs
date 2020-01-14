@@ -1,0 +1,145 @@
+﻿1)How to install open cv ?
+pip install --upgrade pip
+pip install opencv-python
+2)Diff between  HSL and HSV
+HSL (hue, saturation, lightness) and HSV (hue, saturation, value) are alternative representations of the RGB color model, 
+designed in the 1970s by computer graphics researchers to more closely align with the way human vision perceives color-making attributes.
+ In these models, colors of each hue are arranged in a radial slice, around a central axis of neutral colors which ranges from black at the 
+ bottom to white at the top. The HSV representation models the way paints of different colors mix together, with the saturation dimension 
+ resembling various tints of brightly colored paint, and the value dimension resembling the mixture of those paints with varying amounts 
+ of black or white paint. The HSL model attempts to resemble more perceptual color models such as the Natural Color System (NCS) or 
+ Munsell color system, placing fully saturated colors around a circle at a lightness value of ​1⁄2,
+ where a lightness value of 0 or 1 is fully black or white, respectively.
+3) How the images are  processed?
+Image can be converted to array  of  pixels and  further  processing is done.
+when we run img.shape we will get 3  components , 1s is size of width in pixels, height in pixels, 3rd is color scale if 1 means only r, 2 meand red and  green , 
+3 means red ,green and blue
+4)What is blending(mixing) image?
+It is pasting images on top of each other
+It is done through the addweighted function that  used both images and combine  them.
+To blind image we use a simple formula:
+new_pixel = alpha * pixel_1 + beta * pixel_2 + gamma
+If you want pixel1 to be more represented you would just  make a higher alpha value.If you want pixel2 to be more represented you would just  make a lower beta value.
+So we can control value of alpha  and beta based on if we want to show image 1 stronger or image 2  stronger.
+We can also add gamma value to manipulate further the blended image
+Note - addweighted function of cv works only when 2 images to be  blend are of the same size
+5) what is ROI?
+It stands for region of interest.It is small part of the complete picture which we focusing on.
+6)Image Thresholding
+It is a simple method  of segmenting an image  into different parts.
+It will convert an image  to consist of only two values white or  black.Black means 0 and white means 255
+It just converts a color image to binary which just have value either 0 or 255.So we just need 1 channel
+So without lossing much information we can move the image  to 3 channel into 1 colour channel
+7) Blurring and smoothing images:
+Smoothing can help get rid of noise of help an application focus on general details.
+There are different types of Blurring and smoothing images.
+often Blurring and smoothing is combined with edge detection.'
+8) Gamma Correction:
+It can be applied to an image to make it appear brighter or darker depending on the gamma value chosen.
+we might have seen in our mobile where we make images brighter or darker that is nothing but a gamma correction.
+9) Kernel:
+Kerel based filters can be applied over an image to produce a variety of effects.
+Lot of smoothing and  blurring operation depends  on kernel operation
+It is a small matrix used to appply effects  on image like the ones you might  find in photoshop such  as blurring, sharpening,  outlining or embossing.
+They are also used in  machine learning for feature extraction a technique for determing the most important portions of an  image.
+In this context the process is known as convolution.
+For grey scale image value is always between 0 and 255
+0 = black and 255 is White.
+10)Different types of blurring:
+Default blurring, custom blurring  , gaussian blurring , median blurring
+Gaussian and median blurring just take the group of pixels and calculate the averages and then make those  the outputs.
+Out of all median blurr actually tends to be really good at removing noise from an image while trying  to keep certain details.
+So thats makes median blurring  a really interesting technique for reducing image noise.
+Bilateral filterint - Its another way to blurr the image.very rarely  used.It attempts to reduce the unwanted noise and keep the edges fairly sharp.
+However it is usally slower compared to other filters.
+Hence the main idea here is that we can  reduce noise and images that are noisy or we can reduce the amount of detail we need  when we are  performing 
+other task like edge detection
+11) Morphological Operators:
+It is set of kernels that can achieve a variety of effects such as reducing noise.
+We have already seen the kernels effects such as blurring and smoothing these morphological operators are going to expand on that.
+In fact Certain operators are very good at reducing black points on a white background and vice versa.
+Certain operators can also achive an erosion and dialtion effect that can add or erode from an existing image.
+This effect is mostly seen in text data, so we will see various morphological operators on some simple white text on a black background.
+morphological operators opening is used to remove the background noise.
+morphological operators closing is used to remove the forground noise.
+12) morphological gradient:
+it just takes the difference between the dialation  and erosion of an image.
+In simple example if want to perform erosion it will get rid of edges between the background and  foreground noise.
+when we want to perform dialtion then it make the text character more bubbly.
+morphological gradient is one of the type of edge detection
+13) Gradient:
+Gradient is an extension of morphological operators.
+Understanding gradient will lead to understanding of edge detection which allow us to perform operation such as object detection , object tracking and image classification.
+An image gradient is a directional change in the intensity or color in an image.
+We will see here sobel-feldman operators.
+Gradients can be calculated in a specific direction.
+Normalized x-gradient from sobel-feldman operator will mainly show edges in vertical direction
+Normalized y-gradient from sobel-feldman operator will mainly show edges in horizontal direction
+Normalized gradient magnitude from sobel-feldman operator will show both horizontal and vertical edges.
+14) Image histogram:
+From images we can display the frequency of values for colors.
+Each of the three RGB channels has values between 0-255
+We can plot these as 3 histogram on top of each to see how much of each  channel there is.
+15)Histogram eqaulization:
+earlier we have seen how to use gamma correction to make the image  bright or dark.
+now histogram eqaulization is a method of constrast adjustment based on the images's histogram.
+for eg: if in image min value is 52 and maximum is 152 it means no black and white pickels,so we can apply eqaulization and make minimum value to 0
+and maximum value to 255
+15)Object detection-Template matching
+It is the simples form of object detection.
+Here we should have the original picture with which i need to validate the target image.It takes the target image and keep into larger image and check
+pixel by pixel and  it should match completely.
+eval - It is a fuction use to evaluate a string.for eg if we have variable with string  'sum' and we use somewhere it will be considered as string, but with
+eval it will bw considered as sum function.
+16)Corner detection:
+A corner is a point whose local neighborhood stands in two dominant and different edge directions. OR
+It can be interpreted as the junction of two edges where an edge is a suddden change in image brightness.
+There are many corner detection algorithm but below are two famous,
+Harris Corner Detection:
+The basic intuition is that corners can be detected by looking for significant change in all directions.
+Shi-Tomasi Corner Detection
+It made  a small correction to Harris Corner Detection which ended up with better results.That changes was on scoring function selection.it was replace to min(lambda1,lambda2)
+17) Edge detector:
+Canny edge detector is one of the most popular edge detection algorithms.
+Canny edge  detection process:
+a) Apply gaussian filter to smooth the image in order to remove  the noise.
+b) Find the intensity gradients of the image
+c) Apply non-maximum suppression  to get rid of spurious resoponse to edge detection.
+d) apply double threshold to determine potential edges
+e) Track edge by hysteresis : Finalize the detection of edges by suppressing all the other edges that are weak and not connected 
+	to strong edges
+Note - For high resolution images  where you only want general edges, it is usally a good idea to apply a custom blur before applying the canny algorithm.
+18)Grid Detection:
+Often cameras can create a distortion in an image, such as radial distortion and tangential distortion.
+A good way to account for these distortions when performing operations like object tracking is to have a recognizable pattern attached to the object being tracked.
+Grid protection are often use to calibrate cameras and track motion.
+19)Contour detection:
+It is defined as simply a curve joining all the continuous points(along the boundary), having same color or intensity
+It is a useful tool for shape analysis and object detection and recognition.
+20) Feature matching:
+We have seen template matching to find objects withing a larger image but drawback is  it required an exact copy of the  image which is not in 
+real world situation.
+So we  use feature matching by different techniques we learned i.e corner, edge and contour detection.
+Then using a distance calculation, finds all  the matches in a secondary image.This means no longer it is required to have an exact copy of the target image.
+We will check out 3 methods:
+Brute-Force matching with ORB descriptors
+Brute-Force matching with SIFT descriptors and ratio test
+Flann based matcher
+21)Watershed algorithm:
+When an image had many objects in it , we can use wateshed algorithm to segemnt it so that it doesnt contain all as  one image.
+22)Object tracking - Optical flow:
+It is the pattern of apparent motion of image  objects between two consecutive frames caused by  the movement of object or camera.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
