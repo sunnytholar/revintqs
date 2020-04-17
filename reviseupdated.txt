@@ -1,0 +1,202 @@
+﻿1)Equation on non linear SVM:
+https://datascienceplus.com/radial-kernel-support-vector-classifier/
+One famous and most general way of adding non-linearities in a model to capture non-linear interactions is by simply using higher degree terms such as square 
+and cubic polynomial terms.
+yi=ß0+ß1X1+ß2X21+ß3X2+ß4X22+ß5X32
+But the problem with polynomials is that in higher dimension i.e when having lots of predictors it gets wild and generally overfits at higher degrees of the polynomial.
+Hence there is another elegant way of adding non-linearities in SVM is by the use of Kernel trick.
+Kernel function - 
+Kernel function is a function of form–
+K(x,y)= [1 + summation  of ( j = 1 to p) (xij*yij)] the whole power to (d)
+, where d is the degree of polynomial.
+Now the type of Kernel function we are going to use here is a Radial kernel.It is of form-
+K(x,y)= exp(-gamma summation  of ( j = 1 to p)(xij-yij)square)
+and ? here is a tuning parameter which accounts for the smoothness of the decision boundary and controls the variance of the model.
+If ? is very large then we get quiet fluctuating and wiggly decision boundaries which accounts for high variance and overfitting.
+If ? is small, the decision line or boundary is smoother and has low variance.
+So now the equation of the support vector classifier becomes —
+f(x)=ß0+?iempS [a(i)K(xi,yi)]
+Here S are the support vectors and a is simply a weight value which is non-zero for all support vectors and otherwise 0.
+2)SVM Intuitive Understanding:
+https://www.youtube.com/watch?v=IEOgRGh7x4g
+Now let say we draw a line randomly.Now how mathematically we can say point lies on  left side of the line or right side of the line.
+So for this we can take dot product of weight and vector(variables) itself so it will be  either positive  or negative which will tell us  
+whether point is this side or that side.
+Y = transpose of weight * X   + b
+..here w is  parameters of plane(i.e intercepts and slope from y = mx + c)  and b is shift how much we shift the line  to get best line.
+so main goal is to find w and b which gives us the best line
+3)Adaboosting:
+It works little different then boosting.Before sending to 1st base learner same weight will be assigned to all the records.Its assigned as 1/n(no of samples)
+Also one thing to note is here decision tree is just created with one depth.So such decision tree which has just one depth is called stumps.So for each 
+feature it creates a stumps and calculates entropy value and whichver entropy value is less it creates it as base line1.
+Now in second step suppose it has classified 4 observation correctly and 2 worng so we need  to find  total error.
+Total error = summation of weight of all misclassified observations.so here we have 2 records so it will be 1/n +  1/n
+Then we calcualte the performance of stump = 1/2 logtobaseE ( {1- Total error} /Total Error)
+So the reason we calculated total error and performance of stump is as we need to update the weights.So we need to increase the weight of wrong observations
+and decrease the weight of correct observations.
+To update  the weight of incorrectly classified points = new sample weight = old weight * e^(performance of stump)
+To update  the weight of correctly classified points just a simple change we have used minus  of performance of stump = new sample weight = old weight * e^(-performance of stump) 
+Note - When we do sum of updated weight it will not be 1 but earlier sample weight sum was 1.
+SO we divide the new weight with summ of all new weight and we get a normalised weight whose sum is now 1.
+so now we will create base model 2 and process will continue till we get best result.
+Xtreme Gradient Boosting:
+Weight updation is happens using graident descent. The only major diff is XGB uses decision tree upto some depth but in ada boost we just have one depth.
+4)Diff ways to check if data is stationary or not
+Visually
+Augmented Dickey fuller  test
+Global versus local  tests - In this we take mean of all data and mean of small set of data, if it is different it means data is not stationary.Also we 
+can compare mean of 2 small set of data 
+5)Stacking
+https://www.youtube.com/watch?v=sBrQnqwMpvA
+6)	Would you remove correlated variables first while running PCA on huge dataset which contains highly correlated variables?
+Answer: Yes. Discarding correlated variables have a substantial effect on PCA because, in presence of correlated variables, 
+the variance explained by a particular component gets inflated.
+7)Hadoop:
+In  Hadoop data is stored in data node in chunk of 128MB and name node contains metadata 
+Program is stored in Job & Task tracker
+What is MapReduce?
+It is basically a framework
+Massive Parallel processing technique for processing data which is distributed on commodity cluster
+I will explain it wil example suppose amozon wants to calculate total sales city wise for year 2018 in India
+In MapReduce job there are 2 phases map phase & the reduce phase , so what happen giving the whole data to one person it splits the whole data into chunks
+on the basis of months so we will  say each mapper gets data of each month so we have 12 mappers which gets data of each month and work on it parallel at same time.
+Now 1st mapper will give the name of the city and amount of sales and write it on the index card,now take 2nd city and write city name , amount sales in another 
+index card and this will be done  for each city and each mapper will do same in parallel.Now mapper job is over
+Reducer will then get these piles of cards ..now we will pass these to each reducer they are responsible for .for eg we can tell reducer 1 is responsible for north city,
+reducer 2 is responsible for south city , r3 for east and r4 for west .now wat R1 will do it will take all south city amunt from each mapper and summ the sales againts 
+each that city and get the total sale per city.
+Betweem Map And reduce we aslo have 1 more phase called as shuffle phase
+https://www.youtube.com/watch?v=nDdSZzP8SD8
+8)What does we model in logistic regression
+You model for log of odds in logistic regression and not probability.It is because as per design it will give the value between 0 and 1 when we take exponential.
+From equation we can interpret if beta value is positive probability will go up and  when its negative probability will come down
+9)Feature engineering
+https://www.youtube.com/watch?v=OTPz5plKb40
+How findcorrelation function works?
+the function looks at the mean absolute correlation of each variable and removes the variable with the largest mean absolute correlation." 
+So in other words, it chooses one of the two variables based on how correlated it is with all the other variables.I.e it keeps variable 
+which is least correlated with other variables
+10) What is z value?
+Z value is a measure of standard deviation i.e. how many standard deviation away from mean is the observed value.
+For example, the value of z value = +1.8 can be interpreted as the observed value is +1.8 standard deviations away from the mean.
+z = x(observed value) - mean/standar deviation 
+11)What is word embeddings?
+In simple machine learning we use count  vectorizer and tfidf which do not preserve any relationship  between the words.
+This is where word embeddings(Word2vec) come in they map all the  words into a language into a vector space of a given dimesion 
+so word2vec is a popular two layer neural network to generate word embeddings this converts words into vectors and with vectors
+we have  multiple operations like add, subtract, calculate distance an	d that is how relation among the words are preserved.
+So one example of this relationship is a very famous result of word2vec which says the vector of the word king - man+  woman 
+gives the word vector of word queen and  this relationship is preserved by word2vec just by iterating through  a large
+corpus of text like a newspaper corpus.So word2vec is not a deep learning network , its simply 2 layer  neural network.
+Why word2vec?
+Preserves relationship between  words
+Deals with addition of new words in the vocabulary
+Better results in lots of deep learning applications
+We need lot amount of RAM to store the  vocabulary of the corpus so need high computation  system(NOte - as a result we did not use in our project]
+12) How the relations are form in word2vec?
+The word2vec objective function causes the words that occur in simpilar contexts to have similar embeddings
+eg - The kid said he would grow up to be superman
+	 The child said he would grow up to be superman
+The words kid and child have similar word vectors due to a similar  context.SO they will have similar vectors and form same embeddings
+When you iterate through a large corpus you will get a lot of sentences where kid can get replaced by child and hence these vectors
+will have similar embeddings.
+Let see how word2vect do the task of generating vectors from the words.So there are two algorithms for this:
+Continuos bag of words(CBOW) and SKip grams 
+In CBOW we predict the target word from the context.
+AND In skip gram we try to predict the context words from target
+In general we use CBOW for small corpus and it is faster to train AND skipgram for large corpus higher dimensions and is slower to train
+https://towardsdatascience.com/word2vec-skip-gram-model-part-1-intuition-78614e4d6e0b
+https://towardsdatascience.com/nlp-101-negative-sampling-and-glove-936c88f3bc68
+https://towardsdatascience.com/nlp-101-word2vec-skip-gram-and-cbow-93512ee24314
+In the CBOW model, the distributed representations of context (or surrounding words) are combined to predict the word in the middle. 
+While in the Skip-gram model, the distributed representation of the input word is used to predict the context.
+A prerequisite for any neural network or any supervised training technique is to have labeled training data. 
+How do you a train a neural network to predict word embedding when you don’t have any labeled data i.e words and their corresponding word embedding?
+Skip-gram Model
+We’ll do so by creating a “fake” task for the neural network to train. We won’t be interested in the inputs and outputs of this network,
+ rather the goal is actually just to learn the weights of the hidden layer that are actually the “word vectors” that we’re trying to learn.
+The fake task for Skip-gram model would be, given a word, we’ll try to predict its neighboring words. 
+We’ll define a neighboring word by the window size — a hyper-parameter.
+13) Cost/lost functions:
+It helps us to measure how well these neurons are performing.It can help us to find how far we are from expected value
+y = represent true value 
+a = represent neuron's prediction
+Quadratic Cost function: summation of square of (y-a) / n 
+It slows down learning speed due to the way formula works. So we will use another cost function
+Cross Entropy : C = (-1/n) summartion(y.ln(a) + (1-y).ln(1-a)
+This cost function allows for faster learn.Larger the difference faster the neuron can learn. Learning is nothing but we corect our predictions
+14)Different types of input output can be are:
+sequence to sequence - Sequence input to sequence output 
+eg : passing  in a set of time series information such as a year's worth of daily sales data.. expecting back a sequence of that same sales
+data shifted over a certain time period into future.
+Sequence input vector output:
+eg : sentiment scores ..so we can feed in a sequence of words may be a paragraph of a moview review and then request back a vector indicating
+whether it was a positive sentiment such as they really liked the movie. so its indicated by 1 they liked movie versus negative 1 or 0 
+means not liked the movie 
+Vector to sequence:
+here we feed in a vector input so a single input at just a first time and then passes zeros for the rest of your time steps and then let the 
+out be a sequence . So here we can pass  a single image and expect sequence of words describing the image that would be a capton
+so if you might have read any research you miht have seen passing image and neural network tells a person is standing on the beach and so on
+15)What are different activation function in deep learning.	
+Most popular types of Activation functions -
+1)Sigmoid or Logistic
+2)Tanh — Hyperbolic tangent
+3)ReLu -Rectified linear units
+Sigmoid Activation function: It is a activation function of form f(x) = 1 / 1 + exp(-x) . 
+Its Range is between 0 and 1. It is a S — shaped curve. It is easy to understand and apply but it has major reasons which have made it fall out of popularity -
+Vanishing gradient problem
+Secondly , its output isn’t zero centered. It makes the gradient updates go too far in different directions and it makes optimization harder.
+Hyperbolic Tangent function- Tanh : It’s mathamatical formula is f(x) = 1 — exp(-2x) / 1 + exp(-2x).
+ Now it’s output is zero centered because its range in between -1 to 1 i.e -1 < output < 1 .
+ Hence optimization is easier in this method hence in practice it is always preferred over Sigmoid function . 
+ But still it suffers from Vanishing gradient problem.
+ReLu- Rectified Linear units : It has become very popular in the past couple of years.It’s just R(x) = max(0,x) i.e if x < 0 , R(x) = 0 and if x >= 0 , R(x) = x.
+ Hence as seeing the mathamatical form of this function
+ we can see that it is very simple and efficinent . A lot of times in Machine learning and computer science we notice that most simple and consistent techniques
+ and methods are only preferred and are best. Hence it avoids and rectifies vanishing gradient problem . Almost all deep learning Models use ReLu nowadays.
+But its limitation is that it should only be used within Hidden layers of a Neural Network Model.
+Hence for output layers we should use a Softmax function for a Classification problem to compute the probabilites for the classes , 
+and for a regression problem it should simply use a linear function.
+So conclusion is we should use ReLu which should only be applied to the hidden layers.
+And if your model suffers form dead neurons during training we should use leaky ReLu or Maxout function.
+It’s just that Sigmoid and Tanh should not be used nowadays due to the vanishing Gradient Problem which causes a lots of problems to train,
+degrades the accuracy and performance of a deep Neural Network Model.
+16)
+What are different Hyperparameter tuning methods?
+There are basically 3 types Grid Search CV, Random Search CV, Bayeson optimisation technique
+Grid Search: Tests all possible permutation combinations of hyperparameters of given Machine Learning algorithm.
+Random Search on the other hand, is a method wherein we try randomly chosen combination of Hyperparameters.
+ This is usually quite computationally cheap and manages to give us decent enough Hyperparameter combinations which enables desired level of performance.
+In other words, Random Search might end up choosing random combinations of penalty and C from all possibilities (as shown above) pretty quickly 
+and test only those choThe only problem with Random Search is that it doesn’t tell us how it chooses the Hyperparameter combinations.
+The process is totally random and there is no way to know if there exists a better combination. sen combinations.
+Bayesian Search on the other hand solves the above problem. It is another well known method for Hyperparameter optimization.
+ The technique as the name suggests works on Bayes Principle.
+ Bayes principle basically says that posterior probability distribution is directly proportional to the priors given
+ to it (prior probability distribution) and the likelihood function.
+ Bayesian Optimization or Bayesian Search considers the previously known knowledge (priors) and searches only those Hyperparameter combinations 
+ which it believes will increase the model’s performance.
+Bayesian Search: Based upon Bayes Rule and considers previously known knowledge to help narrow down the search space of good hyperparameter combinations.
+Bayesian Search usually takes more time than Random Search but less time than Grid Search.
+In order of Time Complexity
+Grid Search > Bayesian Search > Random Search	
+17)difference between gradient descent ,stochastic gradient descent and  mbgd(mini batch gradient descent)
+In both gradient descent (GD) and stochastic gradient descent (SGD), you update a set of parameters in an iterative manner to minimize an error function.
+While in GD, you have to run through ALL the samples in your training set to do a single update for a parameter in a particular iteration, in SGD, on the other hand, 
+you use ONLY ONE or SUBSET of training sample from your training set to do the update for a parameter in a particular iteration. 
+If you use SUBSET, it is called Minibatch Stochastic gradient Descent.
+Thus, if the number of training samples are large, in fact very large, then using gradient descent may take too long because in every iteration 
+when you are updating the values of the parameters, you are running through the complete training set. On the other hand, 
+using SGD will be faster because you use only one training sample and it starts improving itself right away from the first sample.
+18)Correlationo(r) formula?
+r = cov(x,y) / sd(x) * sd(y)
+cov(x,y) = summation of ( i  = 1 to n) [(x-xmean) * (y-ymean)] / N 
+N  = Total no of observations
+19) When is precision more  important  then recall?
+Email Spam detection:This is one of the example where Precision is more important than Recall.
+Having said above, in case of spam email detection, One should be okay if a spam email (positive case) left undetected 
+and doesn't go to spam folder but, if an email is good (negative), then it must not go to spam folder. i.e. Precison is more important. 
+(If model predicts something positive (i.e. spam), it better be spam. else, you may miss important emails).
+20) Gain chart/Lift Curve:
+https://www.youtube.com/watch?v=1dYOcDaDJLY
+	

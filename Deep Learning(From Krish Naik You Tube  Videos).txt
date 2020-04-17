@@ -1,0 +1,268 @@
+﻿1) What two operations happens in simple hidden neuron?
+ a) All the inputs are multiplied with weight and summed.Then we add bias 
+ b) An activation function is applied
+2) What is  optimizer?
+It helps to reduce the loss function.
+Different types are gradient descent, stochastic gradient descent,  SGD mini batch , SGD  with momentum, Adagrad(Adaptive Gradient Optimizer),RMSProp,Adam
+3) Difference between loss function and cost function?
+Loss function is when we calculate loss for  just 1 record and cost function when we  calculate for all records
+So cost function is usally which we  use
+4)  Gradient descent:
+Gradient Descent is an optimization algorithm for finding the minimum of a function.Its usefull here as we need to minimise the cost function
+So in this we try multiple weight and final on one weight i,e best value for weights of neuron input for which cost function i.e error is less.
+Now when we want to adjust the weight of all the neurons we call it as backprogation  as it takes the complete error and distribues among all the 
+neurons based on desired output of each  neuron.
+Here we take  derivative of loss function to find the new weight.And the process continues till we reach the  global minima.
+new weight = old weight - learning rate * (derivative of loss function with respect to weight)
+In gradient descent convex type  graph is created which is plot 
+5) Vanishing Gradient ProblemVanishing Gradient Problem – Vanishing gradient problem arises in cases where the gradient of the activation function is very small. 
+During back propagation when the weights are multiplied with these low gradients, they tend to become very small and “vanish” as they go
+ further deep in the network. This makes the neural network to forget the long range dependency. This generally becomes a problem 
+in cases of recurrent neural networks where long term dependencies are very important for the network to remember.
+There are few challenges for analyzing larger time series data sets with recurrent neural networks and one of those key problems 
+is vanishing gradients issue
+In machine learning, the vanishing gradient problem is a difficulty found in training artificial neural networks with gradient-based learning methods
+ and backpropagation. In such methods, each of the neural network's weights receives an update proportional to the gradient of the error function with
+  preventing the weight from changing its value. In the worst case, this may completely stop the neural network from further training.
+This can be solved by using activation functions like ReLu which do not have small gradients.
+When we use sigmoid as an activation function its value is between 0 to 1.
+And when we  take derivative of sigmoid loss function its  value is between 0 to 0.25.
+So as we go  deep into  neural network and  keep on taking derivative ..at one  point derivative value becomes  very less and weight stops updating
+resulting in vanishing gradient problem.
+Even tanh is a problen  as its value is  between -1 to 1 and  its derivative value is between 0 to 1 .So for some extent it is  better then 
+sigmoid but still not resolves vanishing gradient problem completely.
+Sigmoid = 1/1+e^(-z) 
+Tanh = 1-e^(-2z) / 1+e^(-2z)
+So to avoid this  we  use relu activation function whose value  is between 0 to z and its derivative value is always 1. As we know  derivate of  tan45 is always 1.
+So in this we  way we avoid vanishing gradient problem.
+6) Exploding Gradient Problem:
+This is the exact opposite of the vanishing gradient problem, where the gradient of the activation function is too large. 
+During back propagation, it makes the weight of a particular node very high with respect to the others rendering them insignificant. 
+This can be easily solved by clipping the gradient so that it doesn’t exceed a certain value.
+When the weight becomes very high and varies  a lot in back propogation,  eventhough derivate of loss function is between 0 to 0.25 it results in high derivate value which 
+will never converges to global minima and results  in exploding gradient problem.
+So if we properly  assigns weight this thing can be controlled.
+7) Dropout:
+It is a form of regularization used to avoid overfitting.During training, units are randomly dropped, along with their connections.
+This we do because other nodes should not be very much depenedent at specific node to correct the error as nodes can randomly disables at any time.
+Mostly used for large networks.Here in code 0.2, 0.4 means percentage of units to be drop
+It is one of the regularization technique.
+It is used to avoid overfitting problem in deep learning.Neurons are randomly dropped in the  network to check if  our network is  not 
+dependent on any specific  neurons.
+In  this we select drop out ratio(p value) whose value is between 0 to 1.So 0.25 means 25% neurons will be randomly dropped.
+Now important to note is how it will be done during  prediction.So answer is during prediction whatever dropout ratio we  have selected
+it will be multiplied with  all the weights of  all  the  neurons.
+So to find efficient p value we can do hyperparemeter.Simple is whenevr the deep network is  doing overfitting we should have hight p value ie greater then 0.5
+8)Leaky Relu:
+Now in tanh derivative is between 0 to 1.But as we see derivate in relu is 1.But its derivate can also be zero when z is less then 0 as derivate of constant is  0.
+Note we cant find derivate of zero as per maths.So when derivative is  0 no update will happen and such neurons is called as dead neurons.
+So in order to fix this we will use leaky relu.So as we know relu output is max(0,z) but in leaky relu we increasee it little bit for  negative values and
+make it as max(0.001,z) now derivative value will not become 0.So in this way to avoid dead  neurons issue in deep learning we can use leaky relu activation function.
+9)Weight Initialization
+Key points - Weight should  be neither very high neither very low. 
+			 Weight should  not be  same.If its same it means neruron will be learnig same information from the features
+			 There should be good variance in weight assigned to different neurons
+Different types are:
+ a) Uniform Distribution:
+ Uniform distribution will have 2 rane max and min.so weight will be taken from  uniform distribution.
+ weights = Uniform[-1/root(fan_in),1/root(fan_in)]
+ Here fan_in = number of input neurons present in previous layer
+ So here weight value will be always between -1 to 1
+ b)  Xavier/Gorat :It works very well with sigmoid activation function.
+   It has 2 types Xavier/Gorat  normal and Xavier/Gorat  uniform
+	Xavier/Gorat  normal  - weight is  taken from N(0,sigma) some normal distrubtion  with mean  is 0 and 	some standard deviation of variance
+   sigma = root of (2/(fanin+fanout)
+   It will be always less then 1.
+   Xavier/Gorat  uniform    
+   weights = Uniform[-root(6)/root(fan_in_fan_out),root(6)/root(fan_in+fan_out)]
+   mostly it  will be between -1 and 1.But very rare it can have value +-1.22 when we just have 1 input and 1 output.As square root of 6 is 2.449.
+   So 2.449 / (1+1) will be 1.22
+ c) He init :  It works very nicely with relu activation function
+    It also has 2 types He init  normal and He init  uniform
+	He init  normal:- weight is  taken from N(0,sigma) some normal distrubtion  with mean  is 0 and 	some standard deviation of variance
+   sigma = root of (2)/(fanin)
+   Mostly  its value  will be  0 to 1 but when just 1 input its value can be 1.414 as square root of 2  is 1.414
+   He init  uniform : 
+   weights = Uniform[-root(6)/root(fan_in),root(6)/root(fan_in)]
+   mostly it  will be between -1 and 1.But very rare it can have value +-1.25 and +-2.449 when we just have 1 input or 2 input.As square root of 6 is 2.449.
+   So 2.449 / (1+1) will be 1.25
+10) Difference between gradient and stochastic gradient descent:
+As we know in gradient descent we take derivate of loss function in  back propogation.Now when  we use all data points ie we do back propogation when all datapoints
+are trained then it is  called gradient descent, when we use 1 data point then it is called stochastic gradient descent and when we use k data points which is
+less then total data points  then it is called as mini batch stochastic gradient descent.	
+In linear regression/machine learning we  usually  use SGD and in deep learning we use mini batch stochastic gradient descent
+We dont use gradient descent as suppose we have millions of records so much computation power will be require to load so many records.
+If we use SGD it will take lot of time to converge. So we usually use  mini batch SGD as we will need less resources and converge  faster then SGD
+Now there is one  issue  in mini batch SGD as compared to gradient descent.IN gradient descent converge will  happen directly but in mini batch SGD
+it will take sometime and it will happen in zig  zag way adding some noise.So in order  to remove noise we can use SGD  with momentum
+11) SGD  with Momentum:
+So here we use concept of exponential moving average to reduce the noisy data.In this more importance is given to the recent data.
+So we need to add momentum in our weigth updation formula which is below,
+new weight = old weight - learning rate * (derivative of loss function with respect to weight)
+so above equation becomes,
+new weight = old weight - [gamma Vt-1 + learning rate  * (derivative of loss function with respect to weight)]
+ vt-1 = 1 * (derivative of loss function with respect to weight) at time 't' +  gamma * (derivative of loss function with respect to weight) at time 't' and  so on
+12)Global Minima and Local Minima:
+Now in some curve we have  ups and  down .so sometime we think we have reached global minima but actually we have not and that point is called local minima
+Also there is curve which is stretched such points is called saddle point which later comes down.
+There are two function convex and non convex function.
+The one where we just have global minima is convex function.Such curve we  find in linear, logistic regression.
+But in deep learnig we have some non convex  type of curve.where we have local as well as global minima
+13)Adagrad(Adaptive Gradient Optimizer):
+new weight = old weight - learning rate * (derivative of loss function with respect to weight)
+So here the learning rate was  same.SO we wanted some mechanism where different learning rate can be used for different neurons, different iteration and so on.
+So in above  equation learning rate is defined as:
+learning rate = define any learning rate(mostly big value let say 0.09 if loss function  is more) / root of (alpha_t + ε) 
+ε - Epsilon ..here we use  this as  is alpha_t becomes zero complete value will be zero ..so epsilon  is very small positive number value hence used
+alpha_t =  summation of ( i = 1 to t) square(derivative of loss function with respect to weight)
+here in each iteration derivate is taken and its square so value of alpha_t will keep on increasing thus reducing the learning rate.But there 
+is one disadvantage is as iteration increases value of alpha_t becomes very high and learing rate becomes almost equal to zero ,  so weights will not get 
+updated.So to avoid this issue we use adam or rmsprop.
+14) Adadelta(Adam) and RMSProp
+WOrking of both is same internally, the only difference is it is created by other teams.
+So here instead of alpha_t we use weighted average and weighted average is given by
+weighted average at time t = gamma * weighted average at time t-1 + (1-gamma) * square(derivative of loss function with respect to weight)
+gamma value in most of  case is 0.95. So now here we are not taking summations so learning rate will decrease slowly.
+15) To test if GPU is present in google colab
+import tensorflow as tf
+tf.test.gpu_device_name()
+16) CNN - What is  data augmentation:
+It is the technique used to generate more data when we cannot collect data as sometime it is very  expensive to collect data  with label.
+Its basically data transformation for image dat eg-rotating the picture, moving it little right , removing pickels at corner etc
+Doing this we generate more labelled data.
+It helps to create multiple images from single image which can be used for training by applying below function
+Flip, horizontal , vertical  shifting, zooming, adding noise ,tilting images, adding low white noise to sound data,
+17) LSTM:
+https://colah.github.io/posts/2015-08-Understanding-LSTMs/
+Components of LSTM:
+Memory Cell, Forget Gate, Input Gate, Output Gate
+Forget Gate - Before memory gate our input is concatenated  with previous output and then it passes   to sigmoid function which tell  what to forget and what to remember.
+So its called as forget gate.
+Memory Cell - So it basically do task of remembering and  forgetting based on context of input.When context changes  it should remember  few old 
+as well as new contexts.It has a cell state	
+Input layer - Here we use sigmoid and tanh activation function which helps to find relevant new information which need to be stored in memorycell
+Output gate - Simply generates the output
+18) Ridge and lasso regularization?
+It a regularization technique which is used for overfitting.Regularization keeps the coefficient value small so that small change in 1 coefficient values doesnt have
+big impact on predicted value.
+Lasso is  L1 = Absolute Value - Does paremeter synchrizatioin as well  as make some coefficient value  zero which avoids multicollinearity issue
+Ridge is L2 =  Square .. no multicollinearity just paremeter synchrizatioin
+alpha is hyperparemeter used in lasso and ridge regression
+So  in ridge in cost function calculation we add a penalty i.e loss function is summation of (i=1 to n) [y - yhat]square
+So in above we add a penatly lambda * (Slope)square ..so cost function becomes
+summation of (i=1 to n) [y - yhat]square + lambda * (Slope)square 
+In lasso just square gets replace by absolute value. here lamda is a hyperparemeter
+19) Perceptron(It is one of activate functions.Also single neuron is called as perceptron)
+It consists of one or more inputs, a processor and a single output.A perceptron follow the feed forward model meaning inputs are sent into neuron , 
+are processes and result in output.
+Steps of Perception:
+	Receive Inputs
+	Weight Inputs
+	Sum Inputs
+Pass to activation  function.It can be anything based on requirement.eg : if some is greater then 0 pass output 1 and if sum is less  then 0 pass output as 0
+Process and generate output
+ For eg we have perceptron with two inputs
+input x1 as 12 and input x2 as 4
+Now each input before it is sent to neuron must  first be weighted i.e multiplied by number between 1 and -1
+now randomly multiply x1 by 0.5 and x2 by -1 i.e 6 and -4 is now our input
+Output of perceptron is generated by passing that sum through an activation function.In binary output activation function is what tells the  perceptron
+whether to fire or not.Many activation function to choose from logistic , trignometric , step etc.In this example lets says activation function is sign 
+of sum.if sum is positive number output is 1 and if it is negative output is -1
+One more thing to consider is bias if both input is zero whatver we multiply output will be zero. So to avoid bias issue we add 1 in input
+This is how single perceptron is train.now in neural network multiple perception is link together in layers.
+So mathematically perception model can be represented as
+z = summation of (i = 0 to n) * w(i)x(i) + b : Here b is bias, w is weight and x is input
+20)Epoch,batch,learning rate:
+Batch is simply on what batch we should process our data.for eg we have 1000 records if we use batch as 100..so our model will get train 10 times.It helps to train the model
+faster as instead of 1 observation  at a time it will process 100 records.Again we cant take bacth size very high as our computer should be able to handle big size and our
+model should also get trained  very efficiently
+Epoch - Epoch is how many time model will be trained.In above eg if we use epoch as 10 , model will  get trained 10(as 100 batch sizie) * 10.So different set of random 
+data will get trained.
+learning rate -  it basically  helps to reduce the cost function.Low learning  rate means  it will gradually reduce the cost and is more efficient, but we try with different
+option.
+So all this comes under hyperparemeter tuning
+21) Tensor is a fancy work for n-dimensional array
+It is nothin but higher dimensional array (N-Dimensional)
+eg : Scalar - 3 . It is just individual digit
+     Vector - [1,3,4] one dimnesional array of various scalar numbers
+	 Matrix - [[3,4],[3,6],[6,7]] - list of vectors
+	 Tensor - [[3,4],[3,6],[6,7]],[[3,4],[3,6],[6,7]]  Higher dimensional arrays
+22)Optimization method or Second order behaviour of  gradient descemt:
+There should be some mechanism which helps us to keep higher learning rate in intial and as we reach to minimum eror learning rate should reduce
+It basically allows us  to adjust our learning rate based off the rate of descent.Different ways to do is:
+AdaGrad, RMSProp and Adam. Mostly we will use Adam
+This allows us to start with larger steps and then eventually go to smaller step sizes.
+Adam allows this change to happen automatically.
+Hence total optimization technique  is SGD(Sophisticatic graident descent) , momentum,nesterov,AdaGrad, RMSProp and Adam.
+We cant say which one is best so its always 
+23)Overfitting in neural networks:
+With potentially hundreds of parameters in a deep learning neural network, the possibility of overfitting is very high!
+L1 and L2 regularization can be used for this.Its basically adding the penatly for larger weights in the model
+24) Diff between DNN and CNN:
+In DNN every neuron in one layer is directly connected to every other neuron in another layer
+In CNN : In convolutional layer every neuron is connected to a smaller number of a nearby units in next layer
+25) So why CNN instead of DNN?
+The  MSIT dataset was 28 by 28 pixels.(784 total).But most images are at least 256 by 256 pickels i.e total greater then 56k
+This lead to too many parameters, unscalable to new images. Hence as more and more pickels more parameters so better use CNN
+26) Padding:
+We run into possible issue for edge neurons.There may not be input for them.We can fix this by adding a padding of zero around the image.
+in simple terms when we run filter we miss the edges  information so we add 0 in the  images to avoid loosing the information. 
+27) Filters
+Convolution is a general purpose filter effect for images. ? Is a matrix applied to an image and a mathematical operation.
+ comprised of integers. ? It works by determining the value of a central pixel by adding the. weighted values of all its neighbors together.
+A filter in a CNN is like a weight matrix with which we multiply a part of the input image to generate a convoluted output. 
+Let’s assume we have an image of size 28*28. We randomly assign a filter of size 3*3, which is then multiplied with different 3*3 sections of the image to form 
+what is known as a convoluted output. The filter size is generally smaller than the original image size. 
+The filter values are updated like weight values during backpropagation for cost minimization.
+28)Stride:
+ The amount by which the filter shifts is the stride. In that case, the stride was implicitly set at 1. 
+ Stride is normally set in a way so that the output volume is an integer and not a fraction.
+ Usually after stride our image size reduces.
+29)Max and  avergae pooling:
+It is used to reduce the size of the  image by discarding some information and keeping relevant information.
+foreg - max pooling takes the maximum value of the patch and stores it in the new  image by discarding the values  in the other  pickles.
+So pooling patches actually dont overlap so size of t.he image actually reduces
+Similarly average pooling layer is  same  thing just instead of using max we use average
+30)weights of dnn vs cnn :
+weights in cnn is less then weight in fully connected network as if we have 100 input we will have 100 weights but in CBB suppose 2*2 filter
+then we will  have 20 filters so 20 weights
+31) Subsampling or Pooling Layers:
+Pooling layers will subsample the input image, which reduces the memory use and computer load as well as reducing the number of parameters.
+The way poolin works is we create 2 by 2 pool of pixels thats  known as kernel  and evaluate the maximum value .It can be of two by two or any dimensional
+depending upon the size of data.Only the max value make it to next layer.Here stride is 2 .So this pooling layer will end up removing a lot of 
+information even a small pooling kernel of 2 by 2 with a stride of 2 will remove 75 percent of input data.
+This is most commonly and important steps of convolutional neural networks
+32) Recurrent Neural Networks:
+It is basically used to solve problems that deal with sequence information.
+Usally eg is of time series data, sentences so even natural language has a sequence to it.So there going to be words in a sentence in a particular order,
+Audio and music in particular at time ordering 
+33) In normal neuron in feed forward network
+Input is given to Aggregation of inputs then to activation function then output
+But in Recurrent neuron Input - Aggregation of inputs - Activation function then again back to input i.e output goes back to the input of same neuron
+34)Different types of input output can be are:
+sequence to sequence - Sequence input to sequence output 
+eg : passing  in a set of time series information such as a year's worth of daily sales data.. expecting back a sequence of that same sales
+data shifted over a certain time period into future.
+Sequence input vector output:
+eg : sentiment scores ..so we can feed in a sequence of words may be a paragraph of a moview review and then request back a vector indicating
+whether it was a positive sentiment such as they really liked the movie. so its indicated by 1 they liked movie versus negative 1 or 0 
+means not liked the movie 
+Vector to sequence:
+here we feed in a vector input so a single input at just a first time and then passes zeros for the rest of your time steps and then let the 
+out be a sequence . So here we can pass  a single image and expect sequence of words describing the image that would be a capton
+so if you might have read any research you miht have seen passing image and neural network tells a person is standing on the beach and so on
+35) Batch Normalization:
+It is a powerful technique to regularize our model.It reduces the overfitting by rescaling the features between one layer to  the next layer in deep neural network.
+Hence increases accuracy
+As a concept, batch normalization can be considered as a dam we have set as specific checkpoints in a river. This is done to ensure that distribution of data is the same
+ as the next layer hoped to get. 
+When we are training the neural network, the weights are changed after each step of gradient descent. This changes the how the shape of data is sent to the next layer.
+But the next layer was expecting the distribution similar to what it had previously seen. So we explicitly normalize the data before sending it to the next layer.
+
+
+------------
+For handson on ANN and CNN check handson videos later and practise.
+https://github.com/krishnaik06/Hidden-Layers-Neurons
+
+Study ridge and  lasso regression also from krish naik videos
+
