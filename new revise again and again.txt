@@ -1,0 +1,1086 @@
+﻿1)Recommended System:
+i)Weighted hybrid technique for Recommender system
+It is the simplest technique which was used earlier which uses weighted average for each movie's average rating
+There is a formula to calculate this.So here based on descending order of weighted average recommendation is given
+ii) Two mainly used  recommendation systems are Content based filtering and  collaborative based filtering?
+In content based let say there are different genres of movie Action , Romantic, Comedy, Adventure
+Now User 1 watched movie M1 which is action , then M2 which is Action , M3 which is  romantic
+Now User 2 also watched M1 which is action  so M2 and M3 will be recommended to him  in similiar  way it will be recommended to others as well
+In collaborative we basically takes similiar characteristics between users.So here genres are not considered.
+So mostly collaborative is  used in netflix , amazon prime.
+And in shoping website content based is used.
+2) LDA
+i)LDA:
+https://www.youtube.com/watch?v=NYkbqzTlW3w
+Step1 - Suppose let say we select 10  topics so each word will be  randomly be assigned a topic.Then it will check 2 things,
+1st -  It will check how often the topics occurs in the document
+1nd - It will check how often the word occurs in the topic overall(i.e in all documents)
+Based on this  info, assign  the word a new topic.
+Input Parameter - Term Document Matrix(we use count vectorizer  and then convert it into sparse matrix when using scikit learn else in gensim we use term document frequency
+ and dictonary),
+ Number of topics, number of iterations.
+Term Document matrix we convert it into sparse matrix, also we create dictonary for each word as input
+So we need to try with different parameter till our output starts making some sense.
+Coherence Score is used to validate.
+Its a probabistic method.
+ii)What is similarity between NB and LDA?
+Both uses conditional probabilites.
+LDA which utilizes the Bayesian inference to get the posterior probability of topics in each document, also the posterior probability of words in each topic.
+There are two posterior probability that LDA cares about:
+    The probability of topics in each document.
+    The probability of words in each topic.
+By applying LDA model, we could get the conditional distribution of , that is conditional distribution of topics in document , and , that is distribution of words in topic .
+Kindly remember each algorithm has a smoothing term that ensures every topic has a nonzero chance of being chosen in any document
+and that every word has a nonzero chance of being chosen for any topic
+3)Glove:
+GloVe stands for global vectors for word representation.
+Its a word embeding model , various options are 50d, 100d, 150d.So when we  download glove all gets downloaded.
+50d means each word with be represented by a vector of lenght 50
+So we have notepad where each word corresponds to lenght 50.
+So we take our summary break into words , run loop and assign  vector to each word , then take average and that will be final vector for that sentence
+So we will have 50 columns as  we use 50d .Further we can add this columns with other columns.
+4)nayes bayes:
+i) conditional probability?
+P(A/B) = P(A Intersection B) / P(B)
+ii)Bayes theroem
+P(A/B) = P(B/A) * P(A) / P(B)
+Here left hand side we can say A is hypothesis and B is data or evidence.
+So we need to find the probability of hypothesis considering we have given evidence or data.
+So here P(A/B) is posterior probability, P(B/A) - likelihood probability, P(A) - prior probability, P(B) - marginal probability
+P(B/A) - Probability of evidence/data given the hypothesis is true
+P(A) - probability of hypothesis without considering evidence
+P(B) - probability of evidence/data
+iii)nb explanation
+P(A/B) = P(B/A) * P(A) / P(B)
+It is proabability of finding even A when even B has occured
+P(A) is priori probability i,e proabability of  event before event B has  occured
+For eg:
+Suppose we have statement:
+xyz control job has failed
+And Suppose there are 3 labels password reset, control m job failed and access issue
+Now we need to find  probability of each word with respect to each label,so first we will calcualte,
+P(xyz/Password_Rreset) , P(control/Password_Rreset) and so on.Then finally we will multiply all  the  proabability and  that will
+be probability of whether label for given statement is password reset.Similarly we will do for all  other labels.And labels with high 
+proabability will be the final label
+Now lets see how to  calcualte the proabability
+So now we will first find P(xyz/Password_Rreset) = total no of times xyz comes in all password reset summary/totalno of words present in password reset summaries
+There is one disadvantage of this method when new word comes (means that word not present in any classes)
+So its proabability will be  zero and  it makes complete proabability of sentence equal to zero
+So to avoid this we can use laplace smoothing,  what it does it adds a parameter alpha in  nr and dr which will add some small value so that it never becomes zero
+Its like we add aplha = 1 in numerator and alpha * N( alpha id 1 and N is no of unique words in the dataset) in denominator
+Adding alpha * N in denominator helps to  keep proabability  values less then 1
+https://www.youtube.com/watch?v=jS1CKhALUBQ
+https://www.youtube.com/watch?v=71oNiqPoKD8
+https://www.youtube.com/watch?v=Zt83JnjD8zg
+5)SVM:
+i)Defination
+In SVM we creates a decision boundary also called as hyper  plane to seperate the two classes.
+Next we find point which of one class which is close to other class and draws a line at both side which is called marginal line.Marginal line should be
+ as away(maximum width) as possible from  decision boundary for better model.So marginal line plays very important role in finalising the hyperplane
+ SVM has a feature to ignore outliers and find the hyper-plane that has maximum margin. Hence, we can say, SVM is robust to outliers.
+ii)Equation on non linear SVM:
+https://datascienceplus.com/radial-kernel-support-vector-classifier/
+One famous and most general way of adding non-linearities in a model to capture non-linear interactions is by simply using higher degree terms such as square 
+and cubic polynomial terms.
+yi=ß0+ß1X1+ß2X21+ß3X2+ß4X22+ß5X32
+But the problem with polynomials is that in higher dimension i.e when having lots of predictors it gets wild and generally overfits at higher degrees of the polynomial.
+Hence there is another elegant way of adding non-linearities in SVM is by the use of Kernel trick.
+Kernel function - 
+Kernel function is a function of form–
+K(x,y)= [1 + summation  of ( j = 1 to p) (xij*yij)] the whole power to (d)
+, where d is the degree of polynomial.
+Now the type of Kernel function we are going to use here is a Radial kernel.It is of form-
+K(x,y)= exp(-gamma summation  of ( j = 1 to p)(xwordij-yij)square)
+and ? here is a tuning parameter which accounts for the smoothness of the decision boundary and controls the variance of the model.
+If ? is very large then we get quiet fluctuating and wiggly decision boundaries which accounts for high variance and overfitting.
+If ? is small, the decision line or boundary is smoother and has low variance.
+So now the equation of the support vector classifier becomes —
+f(x)=ß0+?iempS [a(i)K(xi,yi)]
+Here S are the support vectors and a is simply a weight value which is non-zero for all support vectors and otherwise 0.
+iii)SVM Intuitive Understanding:
+https://www.youtube.com/watch?v=IEOgRGh7x4g
+Now let say we draw a line randomly.Now how mathematically we can say point lies on  left side of the line or right side of the line.
+So for this we can take dot product of weight and vector(variables) itself so it will be  either positive  or negative which will tell us  
+whether point is this side or that side.
+Y = transpose of weight * X   + b
+..here w is  parameters of plane(i.e intercepts and slope from y = mx + c)  and b is shift how much we shift the line  to get best line.
+so main goal is to find w and b which gives us the best line
+ The SVM kernel is a function that takes low dimensional input space and transforms it to a higher dimensional space i.e. it converts not separable problem to separable problem. 
+ It is mostly useful in non-linear separation problem.
+ Simply put, it does some extremely complex data transformations, then finds out the process to separate the data based on the labels or outputs you’ve defined.
+ Pros and Cons associated with SVM
+Krish Naik Video Explanation:
+https://www.youtube.com/watch?v=Js3GLb1xPhc
+The only  difference between logistic and SVM is the extra plane which gets added i.e two marginal  planes(positive and  the negatives planed) which we add.
+So to derive this 2 marginal  lines  lets  consider the maths behind it,
+eg for svm is y = transopose of (w) * X + bias
+Let Suppose we have a line whose slope is -1 and on left or down side there is a point (-4,0)
+So y = [-1 * [-4 0
+		0]
+On calculation we  get value as  4,it means for any point on lower side of line its value will be positive  and at higher end it will be negative
+So now we need to compute  the  distance between 2 marginal lines,
+Now say we have 2 marginal lines are x1 and x2 , now we want to find x2-x1, So it can be computed as,
+transopose of (w) * X1 + bias = -1
+transopose of (w) * X2 + bias = 1
+(-)					(-)	(-)  =  (-)
+So output will be transopose of (w) [x2 - x1] = 2
+Now to remove transopose of (w), we can remove it by norm of transopose of (w).We cant simply remove as  there are some direction involved
+transopose of (w)/ ||w|| [x2 = x1] = 2/ ||W||
+So by this magnitude  of w will go but there will be some  direction of transopose of (w)
+So 2/||w|| is the optimisation which we need to maximise.
+So we need to adjust w and b  is such a way that we maximises 2/||w|| . So this is an optimisation function.
+But there is a condition y(i) = 1 when transopose of (w) * X + bias  >= 1
+		       AND 		 y(i) = -1 when transopose of (w) * X + bias  <= -1	
+		Also note that yi * transopose of (w) * X + bias  value should be >= 1 in above both cases
+NOw optimisation functional cal also we written as So we need to adjust w and b  is such a way that we minimises ||w||/2
+Now we add  more parameter, C * summationof(i = 1 to n) xetaof_i
+Here c = how many error is fine basically it means  how many obseravtions can be misclassified before changing the plane
+and xetaof_i is value of error.C is also called as regularisation parameters
+So final equation of SVM Becomes,  
+ adjust w and b  is such a way that we minimises ||w||/2 + Ci* summationof(i = 1 to n) xetaof_i
+Pros:
+It works really well with a clear margin of separation
+It is effective in high dimensional spaces.
+It is effective in cases where the number of dimensions is greater than the number of samples.
+It uses a subset of training points in the decision function (called support vectors), so it is also memory efficient.
+Cons:
+It doesn’t perform well when we have large data set because the required training time is higher
+It also doesn’t perform very well, when the data set has more noise i.e. target classes are overlapping
+SVM doesn’t directly provide probability estimates, these are calculated using an expensive five-fold cross-validation. 
+It is included in the related SVC method of Python scikit-learn library.
+iv)SVM tuning paremeters
+SVM:https://www.analyticsvidhya.com/blog/2017/09/understaing-support-vector-machine-example-code/
+One can tune the SVM by changing the parameters C, gamma and the kernel function.
+I would suggest you go for linear SVM kernel if you have a large number of features (>1000) because it is more likely that the data is linearly separable in high dimensional space. 
+Also, you can use RBF but do not forget to cross-validate for itss parameters to avoid over-fitting.
+gamma: Kernel coefficient for ‘rbf’, ‘poly’ and ‘sigmoid’. Higher the value of gamma,
+ will try to exact fit the as per training data set i.e. generalization error and cause over-fitting problem.
+ C: Penalty parameter C of the error term. It also controls the trade-off between smooth decision boundaries and classifying the training points correctly.
+ We should always look at the cross-validation score to have effective combination of these parameters and avoid over-fitting.
+sklearn.svm.SVC 
+Here SVC means support vector classification
+- C : float, default=1.0
+Its basically penalty for making error
+Regularization parameter. The strength of the regularization is inversely proportional to C. Must be strictly positive. The penalty is a squared l2 penalty.
+- kernel{‘linear’, ‘poly’, ‘rbf’, ‘sigmoid’, ‘precomputed’}, default=’rbf’
+Specifies the kernel type to be used in the algorithm. It must be one of ‘linear’, ‘poly’, ‘rbf’, ‘sigmoid’, ‘precomputed’ or a callable. If none is given, ‘rbf’ will be used.
+- gamma{‘scale’, ‘auto’} or float, default=’scale’
+Kernel coefficient for ‘rbf’, ‘poly’ and ‘sigmoid’.
+if gamma='scale' (default) is passed then it uses 1 / (n_features * X.var()) as value of gamma,
+if ‘auto’, uses 1 / n_features.
+5)Adaboosting:
+It works little different then boosting.Before sending to 1st base learner same weight will be assigned to all the records.Its assigned as 1/n(no of samples)
+Also one thing to note is here decision tree is just created with one depth.So such decision tree which has just one depth is called stumps.So for each 
+feature it creates a stumps and calculates entropy value and whichver entropy value is less it creates it as base line1.
+Now in second step suppose it has classified 4 observation correctly and 2 worng so we need  to find  total error.
+Total error = summation of weight of all misclassified observations.so here we have 2 records so it will be 1/n +  1/n
+Then we calcualte the performance of stump = 1/2 logtobaseE ( {1- Total error} /Total Error)
+So the reason we calculated total error and performance of stump is as we need to update the weights.So we need to increase the weight of wrong observations
+and decrease the weight of correct observations.
+To update  the weight of incorrectly classified points = new sample weight = old weight * e^(performance of stump)
+To update  the weight of correctly classified points just a simple change we have used minus  of performance of stump = new sample weight = old weight * e^(-performance of stump) 
+Note - When we do sum of updated weight it will not be 1 but earlier sample weight sum was 1.
+SO we divide the new weight with summ of all new weight and we get a normalised weight whose sum is now 1.
+so now we will create base model 2 and process will continue till we get best result.
+Xtreme Gradient Boosting:
+Weight updation is happens using graident descent. The only major diff is XGB uses decision tree upto some depth but in ada boost we just have one depth.
+6)Diff ways to check if data is stationary or not
+Visually
+Augmented Dickey fuller  test
+Global versus local  tests - In this we take mean of all data and mean of small set of data, if it is different it means data is not stationary.Also we 
+can compare mean of 2 small set of data 
+ADF - p value should be less then 0.05 for stationary data and ADF Statistic should be near to -12.4
+5)Stacking
+https://www.youtube.com/watch?v=sBrQnqwMpvA
+6)	Would you remove correlated variables first while running PCA on huge dataset which contains highly correlated variables?
+Answer: Yes. Discarding correlated variables have a substantial effect on PCA because, in presence of correlated variables, 
+the variance explained by a particular component gets inflated.
+7)Hadoop:
+In  Hadoop data is stored in data node in chunk of 128MB and name node contains metadata 
+Program is stored in Job & Task tracker
+What is MapReduce?
+It is basically a framework
+Massive Parallel processing technique for processing data which is distributed on commodity cluster
+I will explain it wil example suppose amozon wants to calculate total sales city wise for year 2018 in India
+In MapReduce job there are 2 phases map phase & the reduce phase , so what happen giving the whole data to one person it splits the whole data into chunks
+on the basis of months so we will  say each mapper gets data of each month so we have 12 mappers which gets data of each month and work on it parallel at same time.
+Now 1st mapper will give the name of the city and amount of sales and write it on the index card,now take 2nd city and write city name , amount sales in another 
+index card and this will be done  for each city and each mapper will do same in parallel.Now mapper job is over
+Reducer will then get these piles of cards ..now we will pass these to each reducer they are responsible for .for eg we can tell reducer 1 is responsible for north city,
+reducer 2 is responsible for south city , r3 for east and r4 for west .now wat R1 will do it will take all south city amunt from each mapper and summ the sales againts 
+each that city and get the total sale per city.
+Betweem Map And reduce we aslo have 1 more phase called as shuffle phase
+https://www.youtube.com/watch?v=nDdSZzP8SD8
+8)What does we model in logistic regression
+You model for log of odds in logistic regression and not probability.It is because as per design it will give the value between 0 and 1 when we take exponential.
+From equation we can interpret if beta value is positive probability will go up and  when its negative probability will come down
+9)Feature engineering
+https://www.youtube.com/watch?v=OTPz5plKb40
+How findcorrelation function works?
+the function looks at the mean absolute correlation of each variable and removes the variable with the largest mean absolute correlation." 
+So in other words, it chooses one of the two variables based on how correlated it is with all the other variables.I.e it keeps variable 
+which is least correlated with other variables
+10) What is z value?
+Z value is a measure of standard deviation i.e. how many standard deviation away from mean is the observed value.
+For example, the value of z value = +1.8 can be interpreted as the observed value is +1.8 standard deviations away from the mean.
+z = x(observed value) - mean/standar deviation 
+11)What is word embeddings?
+In simple machine learning we use count  vectorizer and tfidf which do not preserve any relationship  between the words.
+This is where word embeddings(Word2vec) come in they map all the  words into a language into a vector space of a given dimesion 
+so word2vec is a popular two layer neural network to generate word embeddings this converts words into vectors and with vectors
+we have  multiple operations like add, subtract, calculate distance an	d that is how relation among the words are preserved.
+So one example of this relationship is a very famous result of word2vec which says the vector of the word king - man+  woman 
+gives the word vector of word queen and  this relationship is preserved by word2vec just by iterating through  a large
+corpus of text like a newspaper corpus.So word2vec is not a deep learning network , its simply 2 layer  neural network.
+Why word2vec?
+Preserves relationship between  words
+Deals with addition of new words in the vocabulary
+Better results in lots of deep learning applications
+We need lot amount of RAM to store the  vocabulary of the corpus so need high computation  system(NOte - as a result we did not use in our project]
+https://towardsdatascience.com/understanding-feature-engineering-part-4-deep-learning-methods-for-text-data-96c44370bbfa
+12) How the relations are form in word2vec?
+The word2vec objective function causes the words that occur in simpilar contexts to have similar embeddings
+eg - The kid said he would grow up to be superman
+	 The child said he would grow up to be superman
+The words kid and child have similar word vectors due to a similar  context.SO they will have similar vectors and form same embeddings
+When you iterate through a large corpus you will get a lot of sentences where kid can get replaced by child and hence these vectors
+will have similar embeddings.
+Let see how word2vect do the task of generating vectors from the words.So there are two algorithms for this:
+Continuos bag of words(CBOW) and SKip grams :
+In CBOW , it takes a set of context word and tries to predict the target/center word from the context.
+AND In skip gram it takes the target word and tries to  predict the surrounding context words from target
+In general we use CBOW for small corpus and it is faster to train AND skipgram for large corpus higher dimensions and is slower to train
+https://towardsdatascience.com/word2vec-skip-gram-model-part-1-intuition-78614e4d6e0b
+https://towardsdatascience.com/nlp-101-negative-sampling-and-glove-936c88f3bc68
+https://towardsdatascience.com/nlp-101-word2vec-skip-gram-and-cbow-93512ee24314
+In the CBOW model, the distributed representations of context (or surrounding words) are combined to predict the word in the middle. 
+While in the Skip-gram model, the distributed representation of the input word is used to predict the context.
+A prerequisite for any neural network or any supervised training technique is to have labeled training data. 
+How do you a train a neural network to predict word embedding when you don’t have any labeled data i.e words and their corresponding word embedding?
+Skip-gram Model
+We’ll do so by creating a “fake” task for the neural network to train. We won’t be interested in the inputs and outputs of this network,
+ rather the goal is actually just to learn the weights of the hidden layer that are actually the “word vectors” that we’re trying to learn.
+The fake task for Skip-gram model would be, given a word, we’ll try to predict its neighboring words. 
+We’ll define a neighboring word by the window size — a hyper-parameter.
+12) Word2Vec:
+Word2vec is one of the most popular technique to learn word embeddings using a two-layer neural network.
+Its input is a text corpus and its output is a set of vectors. 
+There are two main training algorithms for word2vec, one is the continuous bag of words(CBOW), another is called skip-gram. 
+The major difference between these two methods is that CBOW is using context to predict a target word while skip-gram is using 
+a word to predict a target context. Generally, the skip-gram method can have a better performance compared with CBOW method, 
+for it can capture two semantics for a single word. For instance, it will have two vector representations for Apple, 
+one for the company and another for the fruit.
+Gensim library will enable us to develop word embeddings by training our own word2vec models on a custom corpus either with CBOW of skip-grams algorithms.
+Implementation of word Embedding with Gensim Word2Vec Model:
+Genism word2vec requires that a format of ‘list of lists’ for training where every document is contained in a list and every list contains lists of tokens of that document. 
+Glove:
+It is  an unsupervised learning  algorithms developed by stanford for generating word embeddings by aggregating global word-word co occurence matrix from a corpus.
+Trainig is performed on aggregated global word  to word co occurence matrix from a corpus which tabultes how frequently words co occur with the one another
+in a given corpus.
+Word2Vec methods(skipgrams and cbow) suffer from disadvantage of not learning from the global corpus statistics.As a result repetition and  large scale patterns
+may not be learned as well with these models as they are with global matrix factorization 
+Glove uses co  occurence matrix which is  like heat map, where in each rows and  columns  it has same number  words.So it used window size to create this matrix.
+This  matrix is very huge for  large corpus so uses a  concept called matrix factorization 
+Fasttext:
+fastText is a library for learning of word embeddings and text classification created by Facebook's AI Research (FAIR) lab
+It builds  on Word2Vec by learning vector representation for each word and the n grams found within each word.The fast text model  considers each word  as  a  bag
+of character n grams.Each word vector is based on sub word character n grams in addition to the word itself.this helps preserve the meaning of shorter words that
+may show  up as ngrams  of other words.This is useful  steps for problems depending on word  order , especially sentiment analysis.It supports trainig by both
+CBOW and  Skip grams.
+13) Cost/lost functions:
+It helps us to measure how well these neurons are performing.It can help us to find how far we are from expected value
+y = represent true value 
+a = represent neuron's prediction
+Quadratic Cost function: summation of square of (y-a) / n 
+It slows down learning speed due to the way formula works. So we will use another cost function
+Cross Entropy : C = (-1/n) summartion(y.ln(a) + (1-y).ln(1-a)
+This cost function allows for faster learn.Larger the difference faster the neuron can learn. Learning is nothing but we corect our predictions
+14)Different types of input output can be are:
+sequence to sequence - Sequence input to sequence output 
+eg : passing  in a set of time series information such as a year's worth of daily sales data.. expecting back a sequence of that same sales
+data shifted over a certain time period into future.
+Sequence input vector output:
+eg : sentiment scores ..so we can feed in a sequence of words may be a paragraph of a moview review and then request back a vector indicating
+whether it was a positive sentiment such as they really liked the movie. so its indicated by 1 they liked movie versus negative 1 or 0 
+means not liked the movie 
+Vector to sequence:
+here we feed in a vector input so a single input at just a first time and then passes zeros for the rest of your time steps and then let the 
+out be a sequence . So here we can pass  a single image and expect sequence of words describing the image that would be a capton
+so if you might have read any research you miht have seen passing image and neural network tells a person is standing on the beach and so on
+15)What are different activation function in deep learning.	
+Most popular types of Activation functions -
+1)Sigmoid or Logistic
+2)Tanh — Hyperbolic tangent
+3)ReLu -Rectified linear units
+Sigmoid Activation function: It is a activation function of form f(x) = 1 / 1 + exp(-x) . 
+Its Range is between 0 and 1. It is a S — shaped curve. It is easy to understand and apply but it has major reasons which have made it fall out of popularity -
+Vanishing gradient problem
+Secondly , its output isn’t zero centered. It makes the gradient updates go too far in different directions and it makes optimization harder.
+Hyperbolic Tangent function- Tanh : It’s mathamatical formula is f(x) = 1 — exp(-2x) / 1 + exp(-2x).
+ Now it’s output is zero centered because its range in between -1 to 1 i.e -1 < output < 1 .
+ Hence optimization is easier in this method hence in practice it is always preferred over Sigmoid function . 
+ But still it suffers from Vanishing gradient problem.
+ReLu- Rectified Linear units : It has become very popular in the past couple of years.It’s just R(x) = max(0,x) i.e if x < 0 , R(x) = 0 and if x >= 0 , R(x) = x.
+ Hence as seeing the mathamatical form of this function
+ we can see that it is very simple and efficinent . A lot of times in Machine learning and computer science we notice that most simple and consistent techniques
+ and methods are only preferred and are best. Hence it avoids and rectifies vanishing gradient problem . Almost all deep learning Models use ReLu nowadays.
+But its limitation is that it should only be used within Hidden layers of a Neural Network Model.
+Hence for output layers we should use a Softmax function for a Classification problem to compute the probabilites for the classes , 
+and for a regression problem it should simply use a linear function.
+So conclusion is we should use ReLu which should only be applied to the hidden layers.
+And if your model suffers form dead neurons during training we should use leaky ReLu or Maxout function.
+It’s just that Sigmoid and Tanh should not be used nowadays due to the vanishing Gradient Problem which causes a lots of problems to train,
+degrades the accuracy and performance of a deep Neural Network Model.
+16)
+What are different Hyperparameter tuning methods?
+There are basically 3 types Grid Search CV, Random Search CV, Bayeson optimisation technique
+Grid Search: Tests all possible permutation combinations of hyperparameters of given Machine Learning algorithm.
+Random Search on the other hand, is a method wherein we try randomly chosen combination of Hyperparameters.
+ This is usually quite computationally cheap and manages to give us decent enough Hyperparameter combinations which enables desired level of performance.
+In other words, Random Search might end up choosing random combinations of penalty and C from all possibilities (as shown above) pretty quickly 
+and test only those choThe only problem with Random Search is that it doesn’t tell us how it chooses the Hyperparameter combinations.
+The process is totally random and there is no way to know if there exists a better combination. sen combinations.
+Bayesian Search on the other hand solves the above problem. It is another well known method for Hyperparameter optimization.
+ The technique as the name suggests works on Bayes Principle.
+ Bayes principle basically says that posterior probability distribution is directly proportional to the priors given
+ to it (prior probability distribution) and the likelihood function.
+ Bayesian Optimization or Bayesian Search considers the previously known knowledge (priors) and searches only those Hyperparameter combinations 
+ which it believes will increase the model’s performance.
+Bayesian Search: Based upon Bayes Rule and considers previously known knowledge to help narrow down the search space of good hyperparameter combinations.
+Bayesian Search usually takes more time than Random Search but less time than Grid Search.
+In order of Time Complexity
+Grid Search > Bayesian Search > Random Search	
+17)difference between gradient descent ,stochastic gradient descent and  mbgd(mini batch gradient descent)
+In both gradient descent (GD) and stochastic gradient descent (SGD), you update a set of parameters in an iterative manner to minimize an error function.
+While in GD, you have to run through ALL the samples in your training set to do a single update for a parameter in a particular iteration, in SGD, on the other hand, 
+you use ONLY ONE or SUBSET of training sample from your training set to do the update for a parameter in a particular iteration. 
+If you use SUBSET, it is called Minibatch Stochastic gradient Descent.
+Thus, if the number of training samples are large, in fact very large, then using gradient descent may take too long because in every iteration 
+when you are updating the values of the parameters, you are running through the complete training set. On the other hand, 
+using SGD will be faster because you use only one training sample and it starts improving itself right away from the first sample.
+18)Correlationo(r) formula?
+r = cov(x,y) / sd(x) * sd(y)
+cov(x,y) = summation of ( i  = 1 to n) [(x-xmean) * (y-ymean)] / N 
+N  = Total no of observations
+19) When is precision more  important  then recall?
+Email Spam detection:This is one of the example where Precision is more important than Recall.
+Having said above, in case of spam email detection, One should be okay if a spam email (positive case) left undetected 
+and doesn't go to spam folder but, if an email is good (negative), then it must not go to spam folder. i.e. Precison is more important. 
+(If model predicts something positive (i.e. spam), it better be spam. else, you may miss important emails).
+20) Gain chart/Lift Curve:
+https://www.youtube.com/watch?v=1dYOcDaDJLY
+21)Weight Initialization
+Key points - Weight should  be neither very high neither very low. 
+			 Weight should  not be  same.If its same it means neruron will be learnig same information from the features
+			 There should be good variance in weight assigned to different neurons
+Different types are:
+ a) Uniform Distribution:
+ Uniform distribution will have 2 rane max and min.so weight will be taken from  uniform distribution.
+ weights = Uniform[-1/root(fan_in),1/root(fan_in)]
+ Here fan_in = number of input neurons present in previous layer
+ So here weight value will be always between -1 to 1
+ b)  Xavier/Gorat :It works very well with sigmoid activation function.
+   It has 2 types Xavier/Gorat  normal and Xavier/Gorat  uniform
+	Xavier/Gorat  normal  - weight is  taken from N(0,sigma) some normal distrubtion  with mean  is 0 and 	some standard deviation of variance
+   sigma = root of (2/(fanin+fanout)
+   It will be always less then 1.
+   Xavier/Gorat  uniform    
+   weights = Uniform[-root(6)/root(fan_in_fan_out),root(6)/root(fan_in+fan_out)]
+   mostly it  will be between -1 and 1.But very rare it can have value +-1.22 when we just have 1 input and 1 output.As square root of 6 is 2.449.
+   So 2.449 / (1+1) will be 1.22
+ c) He init :  It works very nicely with relu activation function
+    It also has 2 types He init  normal and He init  uniform
+	He init  normal:- weight is  taken from N(0,sigma) some normal distrubtion  with mean  is 0 and 	some standard deviation of variance
+   sigma = root of (2)/(fanin)
+   Mostly  its value  will be  0 to 1 but when just 1 input its value can be 1.414 as square root of 2  is 1.414
+   He init  uniform : 
+   weights = Uniform[-root(6)/root(fan_in),root(6)/root(fan_in)]
+   mostly it  will be between -1 and 1.But very rare it can have value +-1.25 and +-2.449 when we just have 1 input or 2 input.As square root of 6 is 2.449.
+   So 2.449 / (1+1) will be 1.25
+22) SGD  with Momentum:
+IN gradient descent converge will  happen directly but in mini batch SGD
+it will take sometime and it will happen in zig  zag way adding some noise.So in order  to remove noise we can use SGD  with momentum
+So here we use concept of exponential moving average to reduce the noisy data.In this more importance is given to the recent data.
+So we need to add momentum in our weigth updation formula which is below,
+new weight = old weight - learning rate * (derivative of loss function with respect to weight)
+so above equation becomes,
+new weight = old weight - [gamma Vt-1 + learning rate  * (derivative of loss function with respect to weight)]
+ vt-1 = 1 * (derivative of loss function with respect to weight) at time 't' +  gamma * (derivative of loss function with respect to weight) at time 't' and  so on
+23)Adagrad(Adaptive Gradient Optimizer):
+new weight = old weight - learning rate * (derivative of loss function with respect to weight)
+So here the learning rate was  same.SO we wanted some mechanism where different learning rate can be used for different neurons, different iteration and so on.
+So in above  equation learning rate is defined as:
+learning rate = define any learning rate(mostly big value let say 0.09 if loss function  is more) / root of (alpha_t + ε) 
+ε - Epsilon ..here we use  this as  is alpha_t becomes zero complete value will be zero ..so epsilon  is very small positive number value hence used
+alpha_t =  summation of ( i = 1 to t) square(derivative of loss function with respect to weight)
+here in each iteration derivate is taken and its square so value of alpha_t will keep on increasing thus reducing the learning rate.But there 
+is one disadvantage is as iteration increases value of alpha_t becomes very high and learing rate becomes almost equal to zero ,  so weights will not get 
+updated.So to avoid this issue we use adam or rmsprop.
+24) Adadelta(Adam) and RMSProp
+WOrking of both is same internally, the only difference is it is created by other teams.
+So here instead of alpha_t we use weighted average and weighted average is given by
+weighted average at time t = gamma * weighted average at time t-1 + (1-gamma) * square(derivative of loss function with respect to weight)
+gamma value in most of  case is 0.95. So now here we are not taking summations so learning rate will decrease slowly.
+26) Batch Normalization:
+It is a powerful technique to regularize our model.It reduces the overfitting by rescaling the features between one layer to  the next layer in deep neural network.
+Hence increases accuracy
+As a concept, batch normalization can be considered as a dam we have set as specific checkpoints in a river. This is done to ensure that distribution of data 
+is the same as the next layer hoped to get. 
+When we are training the neural network, the weights are changed after each step of gradient descent. This changes the how the shape of data is sent to the next layer.
+But the next layer was expecting the distribution similar to what it had previously seen. So we explicitly normalize the data before sending it to the next layer.
+It is used after output of each layer and before activation  layer
+Benefits: The converge is faster
+29) acf  and pacf diff:
+In acf plot we look for relation between suppose current data with lag1, lag2 , lag3
+But in pacf plot we find error(residuals) between current data and  lag1,lag2,lag3 and then plot between  residuals and the value at lag4.so it gives pacf between
+current data and  lag4
+30)How to create confusion matrix without using confusion matrix function?
+simply use tab <- table(predictedvalue,actualvalue)
+And to find accurary sum(diag(tab))/sum(tab)
+31)How to transpose 
+use reshape2() function . Actual data is wide format
+To convert data from wild format to long format we use function melt() and to convert data from long format to wild format we use function dcast()
+32)Type1 & 2 error:
+Type 1 and type 2:
+We reject null hypothesis when we should not is type1.
+We retain null hypothesis when we should reject it.
+Type 1 is False positive	and Type2 is False negative
+Eg of Type1 is - Person is suffering from cancer .. actually he doesn'type
+Eg of Type2 is - Person doesnt suffer from cancer .. but actually he does
+So it depends on business to business scenario but most of time type 2 error is 
+more important then type1 error
+33)difference between standard deviation and standard error of mean
+The standard deviation (SD) measures the amount of variability, or dispersion, for a subject set of data from the mean, 
+while the standard error of the mean (SEM) measures how far the sample mean of the data is likely to be from the true population mean.
+The SEM is always smaller than the SD.
+34)
+Types of distribution:
+Normal/Gausian Distribution:
+It forms a bell curve.In middle is mean and right side is 1 SD, 2 SD, 3 SD.Right side is symmetric to left side which basically means 50% of data  lies in right side
+and 50% on left side.
+As per empirical rule 68% of data lies in 1 SD, 95% in 2 SD and 99.7% in 3 SD.
+Log  Normal Distribution:
+We take ln of all values and  plot  it.If its normally distributed then we call it as log  normal distribution.
+Diff betweel log and ln:
+log means base to 10 and ln means base to e which  is a constant whose value is 2.71828.
+What is standard normal distribution?
+Its mean is zero and standard deviation is  1.
+What is chebyshevs inequality?
+It says if the variable is not normally distributed then 75% of data lies in 1 SD, 85% in 2 SD and 95% in 3 SD
+35)Difference between standardization and normalisation:
+Both is used for scalling.Normalisation scale the value of variable between 0 and 1.
+Standard normalisation scale down the feature based on standard normal distribution whose mean is 0 and SD is 1.
+So we use minmax scaler for normalisation. from sklearn.preprocessing import MinMaxScaler( value between 0 and 1)
+from sklearn.preprocessing import  StandardScaler(value between 0 and 1)
+So we need  to use scaling wherever we calculates distance like kmeans,knn,neural network,linear , logistic as we use gradient descent
+no need of scalling  in rf,decision tree, svm
+Mostly standardization is used but for neural network and image it is better to use normalisation as in neural network it will b faster to learn if value 
+is between 0 and 1. And image also it expects value between 0 to 255 so 0 to 1 makes sense.	
+12)Global Minima and Local Minima:
+Now in some curve we have  ups and  down .so sometime we think we have reached global minima but actually we have not and that point is called local minima
+Also there is curve which is stretched such points is called saddle point which later comes down.
+There are two function convex and non convex function.
+The one where we just have global minima is convex function.Such curve we  find in linear, logistic regression.
+But in deep learnig we have some non convex  type of curve.where we have local as well as global minima
+18) Ridge and lasso regularization?
+It a regularization technique which is used for overfitting.Regularization keeps the coefficient value small so that small change in 1 coefficient values doesnt have
+big impact on predicted value.
+Lasso is  L1 = Absolute Value - Does paremeter synchrizatioin as well  as make some coefficient value  zero which avoids multicollinearity issue
+Ridge is L2 =  Square .. no multicollinearity just paremeter synchrizatioin
+alpha is hyperparemeter used in lasso and ridge regression
+So  in ridge in cost function calculation we add a penalty i.e loss function is summation of (i=1 to n) [y - yhat]square
+So in above we add a penatly lambda * (Slope)square ..so cost function becomes
+summation of (i=1 to n) [y - yhat]square + lambda * (Slope)square 
+In lasso just square gets replace by absolute value. here lamda is a hyperparemeter
+31)Scaling:
+Scaling is basically the concept of adjusting the values of the variables to take into account the fact that different variables are measured on very different scales.
+in order to do effective clustering, we need to adjust the variables to a common scale.
+eg : no of childdrfen versus income ..childrens can be 1,2,3,4 but income as 10000,20000,30000 and so on.
+There are three different methods of scaling we will study. The third method; which is the z-score method or the standardization method is the most effective
+ and most commonly used.
+so in 1st method for each variable we will replace by : variable value - least value in it/ (max-min).so in this way we wil get same scale for both variables
+in 2nd method simply divide the variable by mean
+3rd method : Let's look at the third method. This is also called normalization of variables or z-scoring of variables or converting them to Z-scores.
+subtract the mean from each variable and then divide it by the standard deviation
+Scaling by Z score wil give value between - 1and 1
+Scaling by mean will give vallue between 0 and 1
+sacling  by mean simply  mean divide variable by mean
+36) How random forest helps in low bias and variance
+low bias as  we are creating multiple trees so we get more better prediction as we take voting or average to do a final prediction
+low variance : as each bootstrap sample is divided into  66% and 34% so our data  is tested in various unseen data i.e each decision tree is tested on 1/3 rd of data.
+47) AutoCorrelation function(acf):
+In plot if all line  or spike is within blue ---- (dotted  line) means obseravtions are not corelated to each  other.And if its above line it is correlated.
+Another way is to do ljung - box test:
+	- p value is small (less then 0.05) means the data is not white nosie, means data is not independt and is serial autocorrelation.
+	- so for good model it should be greater then 0.05
+How to select acf and pacf?
+We apply acf and pacf plot only on stationary data.So if data  is not stationary make it stationary before applying it to the data.
+We have 2 compoents AR and MA.
+AR = p = Its value is found using pacf plot.Here actually we look for if values are autocorrelated to each other`
+MA =  q = Its value is  found using acf plot.Here actually we look how errors are correlated.
+In  plot x  is our lag and y axis is auto correlation value.Below are few scenario 
+	 when 1st plot(i.e at lag1) is above 95% confidence bands i.e red dotted line and other are near to zero that is drastic down its AR 1
+	 when 1st and 2nd plot(ie at lag1 and la2) is above 95% confidence bands i.e red dotted line and other are near to zero that is drastic down after 2nd plot than its AR2
+	 Similarly when we have 3 plot above red line and 4th below red line in  acf plot we say it to be MA3.while considering 3 we are eliminating 0
+	 Similarly the way we did for AR we will  do for  MA  to find order of  MA.Just one thing acf plot start from lag0 and pacf start from 1
+Some more points:
+In acf plot we look for relation between suppose current data with lag1, lag2 , lag3
+But in pacf plot we find error(residuals) between current data and  lag1,lag2,lag3 and then plot between  residuals and the value at lag4.so it gives pacf between
+current data and  lag4
+LINEAR REGRESSION:
+50) Factors to see in linear regression coeefient table:
+   1.coefficinets which we seen value of beta0 and beta1
+	2.p value- Because the p value is very, very low, we reject the null hypothesis that the coefficient on gestate is actually equal to zero.
+	3.There is standard error, there is t statistic, and there are confidence intervals. : lower error ,  the narrower the ranger of the confidence interval .. better themodel 
+	4.Rsquare:R2 explains what is the proportion of the variance in Y that is being explained by X.
+	The higher the R2 obviously the more variation in Y you are able to express and therefore the better your model is
+	5.Adjusted R2:  adjusted R2 typically will go up only if significance variables are added to the model.
+	6.Anova table:in an ANOVA table essentially what we are checking for is whether or not at least one of the Beta coefficient is different from zero.
+	7.Fit chart: Actual versus fitted values
+	So we will draw a line chart between actual and predicte values .i.e fitted values and expect it to be  overlapping with each other.This is called a FIT chart.
+	Remember, if we have a  good model we would expect to see the actual values and the predicted values to be very close to each other, very similar.
+	8.MAPE - Mean absolute percentage error
+	The averge absolute difference between actual and predicted values generated the MAPE
+	= ABS((actualgrams-predictedgrams)/predictedgrams)
+	you may want to see absolute percentage errors 5% or lower.
+51)Regression asumptions:
+	-  Check for linearity - plot the residuals against each IV
+	if data is linearly related,we should see no pattern in the plot
+	-  The residuals(error) should have constant variance - homoscedasticity
+	Plot the residuals against predicted Y - there should be no pattern
+	- Multivariate normality : The residuals are normally distribited
+	You should ideally see a probability plot or a histogram which is normally distributed for the errors.
+	- The IVS are not too correlated - multicollinearity
+	The IVS should not be highly correlated to one another
+	Higher than 40%, 50% or 60% correlations essentially means that the independent variables are highly correlated, in which case we have a 
+	problem called multicollinearity.
+	- no auto correlation ;: there should be no correlation between residuals(error) terms
+53)Gain chart and lift curve
+Lift / Gain charts are widely used in campaign targeting problems. 
+This tells us till which decile can we target customers for an specific campaign. 
+Also, it tells you how much response do you expect from the new target base.
+It tells us how effective is the classification model.
+57)Define sensitivity ,specificity, recall , precision
+Sensitivity OR Recall: It measures the propotion of positive cases that are correctly measures as positive
+specificity : It measures the propotion of negative cases that are correctly measures as negative
+72) What is z value?
+Z value is a measure of standard deviation i.e. how many standard deviation away from mean is the observed value.
+For example, the value of z value = +1.8 can be interpreted as the observed value is +1.8 standard deviations away from the mean.
+z = x(observed value) - mean/standar deviation 
+73)Eq of covariance and correlation
+Now its important to know the scale of X and Y.Suppose we want to know the asssociation or covariance between height and weight.
+Equation for co variance is summation of (x-xbar)(y-ybar)/N ... N is total no of observations
+Correlation = covariance of (x,y)/ [standard deviation of x * standard deviation of y]
+61)PCA:
+It is always performed on a symmetric correlation or covariance matrix. This means the matrix should be numeric and have standardized data.
+When  we have a large p = 50, p is no of predicted variable ...there can be p(p-1)/2 scatter plots i.e more than 1000 plots possible to analyze the variable relationship. 
+First principal component is a linear combination of original predictor variables which captures the maximum variance in the data set.
+No other component can have variability higher than first principal component.
+The first principal component results in a line which is closest to the data i.e. it minimizes the sum of squared distance between a data point and the line.
+Similarly, we can compute the second principal component also.
+Second principal component (Z²) is also a linear combination of original predictors which captures the remaining variance in the data set
+and is uncorrelated with Z¹. In other words, the correlation between first and second component should is zero. 
+If the two components are uncorrelated, their directions should be orthogonal 
+Orthogonal means perpendicular to each other .. i.e makes a right angle
+All succeeding principal component follows a similar concept i.e. they capture the remaining variation without being correlated with the previous component. 
+In general, for n × p dimensional data, min(n-1, p) principal component can be constructed.
+The directions of these components are identified in an unsupervised way i.e. the response variable(Y) is not used to determine the component direction.
+Therefore, it is an unsupervised approach.Partial least square (PLS) is a supervised alternative to PCA.
+PLS assigns higher weight to variables which are strongly related to response variable to determine principal components.
+PCA is performed on Normalised data ... as data might be in different scales so Performing PCA on un-normalized variables will lead to insanely large loadings for 
+variables with high variance.In turn, this will lead to dependence of a principal component on the variable with high variance. This is undesirable.
+#principal component analysis
+> prin_comp <- prcomp(pca.train, scale. = T)
+> `(prin_comp)
+[1] "sdev"     "rotation" "center"   "scale"    "x"
+The prcomp() function results in 5 useful measures:
+1. center and scale refers to respective mean and standard deviation of the variables that are used for normalization prior to implementing PCA
+3) why it is  better to remove correlated variable before PCA?
+Its better else variance explained  by a particular components gets inflated.
+63)coefficient of variation (CV)
+The coefficient of variation (CV), defined as Standard deviation (SD) divided by the Mean describes the variability of a sample relative to its mean. 
+Coefficient of Variability = Std Dev/Average
+In our project if its value is upto 25% it means constant demand, 25 -50% trend or seasonal demand, greater then 50% random or sporadic demand
+19) what happens due to multicollinearty?
+it creates spurious relation in training data which might not be found in validation data.
+Also 1st variables explains 80% of information so use of  using variables which just add duplicate information
+As  we know the equation of linear regression so  it also impacts the slope.
+Multicollinearity increases the standard errors of the coefficients. Increased standard errors in turn means that coefficients for some independent variables 
+may be found not to be significantly different from 0. In other words, by overinflating the standard errors, multicollinearity makes some variables 
+statistically insignificant when they should be significant. Without multicollinearity (and thus, with lower standard errors), those coefficients might be significant.
+ But severe multicollinearity is a major problem, because it increases the variance of the regression coefficients, making them unstable. 
+The more variance they have, the more difficult it is to interpret the coefficients.
+20)Formula to calculate linear regression manually?
+coficients for which formula is : [summation of (X-Xmean)(Y-Ymean)]/[summation of (X-Xmean)square]
+21) What if model suffers from heterosidasticty?
+Coz if variance is not constant that means thr is some factors affecting the dv. If it has pattern then the std error will get expanded and hypothesis test will bcm wrong. 
+Confidence interval will increase.Std error is a meaure of variance so if std err are biased then hypothesis test results will be biased leading to wrong interferences.
+Hence we want homosadasticity or narrow conf interval or lesser std error
+27) What happen if residuals are not normally distributed?
+Residuals should be normally distributes , if  not hypothesis test outcome may be  invalid.though less of issue with large samples , 
+with large sample even if its is approximately distributed its fine
+ Diff between r, R, rsquare and capital R squrare
+r and R (Pearson  cofficient of correlation) are same i.e correlation between variables
+rsquare and R square(coefficient of  determination) are same which helps us to find  how much our model is able to explain the variation of data in y?
+ Formula  for r,R square, Adjusted R square
+Rsquare= 1- [SSres /SStot]
+SSres - The sum of squares of residuals
+SStot - The total sum of squares 
+SStot - summationof (yi - ymean)square : Y and Yi are actual values
+SSres - summationof(yi-fi)square : fi is forecast values which is nothing but error terms eisquare
+Adjusted R square is calculated as 1 - [(1-Rsquare) * (n-1)/(n-p-1)]
+where p is the total number of explanatory variables in the model (not including the constant term), and n is the sample size.
+21) What is standard error
+standard error is  the standard deviation of distribution of the coefficients.It represents the average distance that the observed values fall from the regression line. 
+Conveniently, it tells you how wrong the regression model is on average using the units of the response variable. 
+Smaller values are better because it indicates that the observations are closer to the fitted line.
+1) Feature Selection
+Look for correlation variabe and remove that
+Near Zero Variance
+RFE(Recursive Feature Elimination)
+Select K Best using Chi square for Categorical Variable
+Feature  Importance From Model
+Information Value
+We use Information package to do dimension reduction
+we use function create_info(dataframe) and selects the col with IV value 0.3 to 0.5.
+Variables with IV less then 0.3 is weak predictor and greater then 0.5 is suspicious or to good to be true 
+It is calculates as IV = sumaation of (distribution of good - distribution of bad ) * ln(disti of good/ dist of bad)
+HERE ln(disti of good/dist of bad) = WOE = Weight of evidence
+IV <- create_infotables(data=mydata, y="admit", bins=10, parallel=FALSE)
+IV_Value = data.frame(IV$Summary)
+Also it can be defined as WOE = ln(percentage of non events / percentge of events)
+eg:
+AGe : so divide into bins
+Agegroup	No of events	no of non events 	percentae of events percentage of non events  WOE IV
+1-10		
+10-20
+20-30
+30-40
+above 40 
+2)  What are different types of correlation
+{'pearson','kendall','spearman'}
+Pearson & Its assumption:
+It is  widely used.Its assumption  are:
+Both variables should  be normally distributed(normally distributed variables have a bell shaped curve)
+Other assumptions include linearity and homoscedasticity.
+Linear assumes a straight line relationship between each of the two variables and  homoscedasticity assumes data is equally distributed about regression line
+The Pearson correlation coefficient measures the strenght  of the linear relationship between normally distributed variables.
+If the variables are not normally distributed or the relationship between the variables  is non  linear,  it may be more appropriate to use spearman correltion.
+Kendall or spearman is a non parametric test , however pearson is a parametric test,
+The spearman rank correlation test does not carry any assumptions about the distribution of the data and is the appropriate correlation analyss when the 
+variables are measured on a scale that is at least ordinal.
+Assumption: The assumptions of spearman correlation are that data must be at least ordinal and the scores on one variable must be monotonically related to other variables.
+Spearman correaltion works good when x is increasing y is also increaing but they have  non linear relationship between them
+Its formula  is = cov(rank of  x,rank of y) /(sd of rank of  x * sd of rank of y)
+So here instead of  directly using x and  y we are using rank of x and rank of  y
+How to calcualte rank of x:
+Sort values of x in ascending order.Then rank as per ascending order.
+So spearman works much better even if we have outlier in data it captured correlation
+3)Training a neural network to perform linear regression
+So what does this have to do with neural networks? In fact, the simplest neural network performs least squares regression.
+Consider the following single-layer neural network, with a single node that uses a linear activation function
+This network takes as input a data point with two features x(1)i,x(2)i, weights the features with w1,w2 and sums them, and outputs a prediction .
+ We could define a network that takes data with more features, but we would have to keep track of more weights, e.g. w1,…,wj if there are j features.
+If we use quadratic loss to measure how well our network performs, (quadratic loss is a common choice for neural networks), 
+it would be identical to the loss defined for least squares regression above:
+L(w)=∑i(h(xi,w)−yi)2
+This is the sum squared error of our network's predictions over our entire training set.
+http://www.briandolhansky.com/blog/artificial-neural-networks-linear-regression-part-1
+28)can regularization used in rf? 
+No it cant as its not based on weight
+Random forest using regression trees for the prediction. When there is a problem of multicollinearity we will use ridge regression. 
+Multicollinearity definitely can affect variable importances in random forest models. To overcome those multicollinearity in random forest 
+29)does linear regression better with regularization ?
+Its good with linear data and not with non linear data
+30)i love music?
+i love music i love music i love music ... 10 times will value be different for tf and count vedctorizer?
+TR and TFIDF both will be same with respect to the way formula works.
+In TF IDF basically is used to give low weigtage to words which are occuring in more no of documents.
+If one word is occuring more number  of times in one  document and very less number of time in overall documents it will ve given high tfidf weightage
+Now there are few other problems with the IDF , in case of a large corpus,say 100,000,000 , the IDF value explodes , to avoid the effect we take the log of idf .
+During the query time, when a word which is not in vocab occurs, the df will be 0. As we cannot divide by 0, we smoothen the value by adding 1 to the denominator.
+that’s the final formula:
+Formula :idf(t) = log(N/(df + 1))
+log helps to keep value  low or else it value can be very high  in large corpus
+https://towardsdatascience.com/tf-term-frequency-idf-inverse-document-frequency-from-scratch-in-python-6c2b61b78558
+31)why we use MSE and not MAE?what is we use MCube , mean four and so on...
+if we use cube it will  become difficult as  error wil be very high then  optimizer will get confuse
+When we have outliers we should use MAE as MSE error will be very high than MAE
+and it will miss guide the optimization algorithm to fit the outlier data more and the accuracy of the  predicted values will be much lesser so hence
+absolute error is preferable is here.
+But in general we always like to attain a global minima and the mean  square error almost gurantees a global minima if one exist especially in the convex cases.
+Briefly since it is a square error its  take some sort of parabolic shape 
+32) Adv and drawback of different algorithms
+Simple linear regression models fit a "straight line" (technically a hyperplane depending on the number of features, but it's the same idea).
+ In practice, they rarely perform well. We actually recommend skipping them for most machine learning problems.
+Their main advantage is that they are easy to interpret and understand. However, our goal is not to study the data and write a research report.
+ Our goal is to build a model that can make accurate predictions.
+In this regard, simple linear regression suffers from two major flaws:
+It's prone to overfit with many input features.It cannot easily express non-linear relationships.
+Let's take a look at how we can address the first flaw.
+1st flaw  can be resolved by Regularization in Machine Learning:
+2nd flaw can be resolved  by  decision trees
+33) Can we apply the concept of ridge regression in random forest for predicting the values in order to get more accurate results?
+Random forest using regression trees for the prediction. When there is a problem of multicollinearity we will use ridge regression.
+ Multicollinearity definitely can affect variable importances in random forest models. To overcome those multicollinearity in random forest 
+ can we use the concept of ridge regression?
+Interesting question. I think you're right that multicollinearity can be a problem in Random Forests. Let's say you have a variable 
+that is completely correlated with another. Both copies then get elected to build trees with. What happens when they are both
+ available is up to the implementation I guess, both in any case the underlying variable,
+if it's a reasonably important one, will be in many trees, leading the classification to be overexcited about this variable (overconfident and / or overdependent on this value).
+The normal regularization parameters of Random Forests are the number of trees and their complexity.
+ I guess you can apply some kind of penalty for including a variable at all in any iteration, or, in the spirit of ridge regression,
+ a penalty for the square of the number of trees that have included each variable.
+ But then, even if that makes sense, it's probably quite hard to get a quick optimization algorithm for this new global constraint on the classifier.
+Also as per whats app shared by yash answer is:
+Regularization prevent overfitting..but in decision trees we use no parameteric form, assumption is cost/penalty used in regularization is independent of the 
+parameters of the distribution
+It does not allow the tree to grow fully meaning it tries to use minimum node and information to get the final outcome
+Second it prunes the trees means cut down information   that are highly sensitive to the current data at hand,, moment it sees new data, it would badly collapse
+Like trying to fit a shirt which is not a slim fit but enough adherance to wear multiple times.
+One is top down and another  is bottom up.You grow tree full and then start pruning.Second it start growig and sees if the cost function is increasing
+First, note that in logistic regression, using both an L1 and an L2 penalty is common enough to have its own name: ElasticNet. 
+(Perhaps see https://stats.stackexchange.com/q/184029/232706 .) So using both isn't unprecedented.
+Second, XGBoost and LightGBM have quite a number of hyperparameters that overlap in their purpose. Tree complexity can be controlled by maximum depth, or maximum number of leaves,
+ or minimum sample (count or weight) per leaf, or minimum criterion gain. Any combination of these might be optimal for some problem. Overfitting can also be combatted
+ with the learning rate vs. number of trees (and early stopping), subsampling rates, and either of the regularization penalties.
+Finally, since L1 regularization in GBDTs is applied to leaf scores rather than directly to features as in logistic regression, it actually serves to reduce the depth of trees.
+ This in turn will tend to reduce the impact of less-predictive features, but it isn't so dramatic as essentially removing the feature, 
+ as happens in logistic regression. You might think of L1 regularization as more aggressive against less-predictive features than L2 regularization.
+ But then it might make sense to use both: some L1 to punish the less-predictive features, but then also some L2 to further punish large leaf scores 
+ without being so harsh on the less-predictive features.
+34)fuzzy matching
+https://towardsdatascience.com/fuzzy-matching-at-scale-84f2bfd0c536
+https://www.datacamp.com/community/tutorials/fuzzy-string-python
+35)Choosing statistics:
+Exploration : Univariate and Bi-variate analysis
+Univariate : 
+			Categorical - count, Count%, Pier Chart, Bar Chart
+			Numerical - Min, Max, Median , Mean, Mode
+						Range, Quantiles, Variance, Standard deviation ,Coefficient of variation
+						Skewness, Kurtosis
+						Histogram , Boxplot
+Bi-variate :
+			Categorical & Categorical - Chi square test
+			Numerical  & Numerical - Correlation, Scatter plot
+			Categorical & Numerical - Z test , t test , Anova test
+										Bar and Line chart
+One Sample proportion test - When we just check on one categorical variabe let say gender										
+T Test-  Used when we want to chec
+k mean of more then 2 categories have a statistically significant impact .Sample size is less then 30 and populaton Standard deviation is not known
+Z test  -  Used when we want to check mean of more then 2 categories have a statistically significant impact .Sample size is greater then 30 and populaton Standard deviation is known
+Annova Test(F test) - Used when we want to check mean of more then 2 categories have a statistically significant impact
+Chi square test - Used when we want to check is there is statistically significant difference between categorical variables
+Lets understand with examples:
+Suppose there are columns Gender(Male,Female),AgeGroup(Adult,Child,Elderly),Heightin meter,Weight in Kg
+So whenever we want to test first we frame a question:
+One Sample proportion test:
+Question - Is  there  a difference in  the proporotion of males and females in the sample
+Null Hypothesis : There is  no difference
+Alternate Hypothesis : There is difference
+So we draw a bar plot and  found there is  dference so we rejest null hypothesis and accept alternate hypothesis
+Chi-squared test:
+Does  the  proportion of  males and females differ across age groups?
+T/Z test:(Just 2 catgories)
+Is there a diffence in averge height between men and women
+Annova/F test:(More then 2 categories)
+36)overfitting example in layman language
+Lets consider an example, there is a professor who gives a book to 2 students and ask them to go through it.
+First student is a hard worker he studies the book again and again and memorizes everything.
+Second student is  little lazy but smart.He goes through the book and tries to understand the concept.
+Next day when professor ask as it is question to first student he answers as it is present in the book but second student answers near to what is mentioned in the book.
+Now when professor ask a question little different from book , first student is  not able to answer it but second student answers question to some near by extent as he 
+has not memorizes the book so he was able to answer it.So here 1st guy is an example of overfitting here.
+39) how rf handles null value?
+No rf doesnt handle null values.It gives error.So we need to impute missing values in rf.
+XGBoost can handle missing values it considers it as a seperate class
+40)Difference between CART AND CHAID:
+CART stands for classification and regression trees where as CHAID represents Chi-Square automatic interaction detector
+CART:: The outcome (dependent) variable is a continuous variable or categorical variable (binary)  and predictor (independent) variables can be continuous 
+or categorical variables (binary). It creates binary split.
+CHAID ( C4.5): The outcome (dependent) variable can be continuous and categorical(multi categories). But, predictor (independent) variables are categorical variables 
+only (can be more than 2 categories). It can create multiple splits (more than 2).
+When independent variables are continuous, they need to be transformed into categorical variables (bins/groups) before using CHAID.
+37)  Tunning parameters for svm , rf, xg boosting and others
+RF :https://www.analyticsvidhya.com/blog/2020/03/beginners-guide-random-forest-hyperparameter-tuning/
+n_estimators : int, default=100 - The number of trees in the forest.
+criterion{“gini”, “entropy”}, default=”gini”
+The function to measure the quality of a split. Supported criteria are “gini” for the Gini impurity and “entropy” for the information gain
+max_depth:  int, default=None
+The maximum depth of the tree. If None, then nodes are expanded until all leaves are pure or until all leaves contain less than min_samples_split samples.
+max_features{“auto”, “sqrt”, “log2”}, int or float, default=”auto”
+The number of features to consider when looking for the best split
+oob_score : bool, default=False
+Whether to use out-of-bag samples to estimate the generalization accuracy.
+n_jobsint, default=None
+The number of jobs to run in parallel. fit, predict, decision_path and apply are all parallelized over the trees. None means 1 unless in a joblib.
+parallel_backend context. -1 means using all processors. 
+xgboost:https://www.analyticsvidhya.com/blog/2016/03/complete-guide-parameter-tuning-xgboost-with-codes-python/
+n_estimators
+gamma:gamma is a regularisation parameter.
+The higher Gamma is, the higher the regularization. Default value is 0 (no regularization).
+max_depth
+learning_rate [default=0.3]
+Makes the model more robust by shrinking the weights on each step
+reg_lambda [default=1]
+L2 regularization term on weights (analogous to Ridge regression)
+This used to handle the regularization part of XGBoost. Though many data scientists don’t use it often, it should be explored to reduce overfitting.
+reg_alpha [default=0]
+L1 regularization term on weight (analogous to Lasso regression)
+Can be used in case of very high dimensionality so that the algorithm runs faster when implemented
+38) how does NLP  works with CNN? Also for text classification which model works best?
+It depends on how much your task is dependent upon long semantics or feature detection. 
+For tasks where length of text is important, it makes sense to go with RNN variants. These types of tasks include: question-answering, translation etc.
+For tasks where feature detection in text is more important, for example, searching for angry terms, sadness, abuses, named entities etc. Convnets work well.
+Though both deep learning models can be used for NLP, based on computation time CNN seems to be much faster (~ 5x ) than RNN
+An RNN is trained to recognize patterns across time, while a CNN learns to recognize patterns across space.
+The result of each convolution will fire when a special pattern is detected. By varying the size of the kernels and concatenating their outputs,
+you’re allowing yourself to detect patterns of multiples sizes (2, 3, or 5 adjacent words).
+Patterns could be expressions (word ngrams?) like “I hate”, “very good” and therefore CNNs can identify them in the sentence regardless of their position.
+Based on the above explanation, the most natural fit for CNNs seem to be classifications tasks, such as Sentiment Analysis, Spam Detection or Topic Categorization. 
+You can think of each filter as detecting a specific feature, such as detecting if the sentence contains a negation like “not amazing” for example.
+If this phrase occurs somewhere in the sentence, the result of applying the filter to that region will yield a large value, 
+but a small value in other regions. By performing the max operation you are keeping information about whether or not the feature appeared in the sentence, 
+but you are losing information about where exactly it appeared.
+RNNs usually are good at predicting what comes next in a sequence while CNNs can learn to classify a sentence or a paragraph.
+In Text classification using CNN we use 1D CNN but  in image we have 3 input for 3 different colur so we go for multi dimension CNN.
+In text also we can go for multi dimension CNN like 1st input will be words , 2nd POS of words, 3rd shape of words.
+CNN basically do 2 operation COnvolution and pooling operations.In convolution operation we multply input with different filter(kernels) of different size
+which fetched different featured from text.Output(also called as feature maps)  is then given as input to max pooling layers.Basically used for dimension reduction.
+Then at output from pooling layer  is flatened and then given as input to dense layer to finally do classification.
+https://www.kaggle.com/kakiac/deep-learning-4-text-classification-cnn-bi-lstm
+https://medium.com/@mrunal68/text-sentiments-classification-with-cnn-and-lstm-f92652bc29fd
+Udemy Video
+40) svm maths with abhishek and also about image he posted in  his  room , also discuss about paremeters of whatever model he knows?
+41)Html web scraping using python:
+https://www.youtube.com/watch?v=uufDGjTuq34
+42)does outlier impacts decision tree and rf?
+When NULL value in decision tree and  rf it gives error.
+https://medium.com/@ncjatin/advantages-and-disadvantages-of-decision-tree-274f32bc8274
+43) RNN:
+In the last few years, there have been incredible success applying RNNs to a 
+variety of problems: speech recognition, language modeling, translation, image captioning… The list goes on.
+In RNN sequence information is maintained.In RNN , forward propogation happens with time.Here time factor is important. 
+For eg Suppose we want to do text classification or sentimental analysis.There is a sentence with 5 words.So at time 1 first word will be input , it will go to hidden layer
+and then activation function and then we get output.
+So let say O1 = function(X11*w + O0 * w')
+Now in time t2 , second word will go into same  hidden  layer and output from time t1 will go in same hidden layer.Same weights will be initialised i.e w with  input and w'
+with output.So now O2 =  function(X12*w + O1 * w'), so in this way it will contine till time t5 as it has 5 words.So it will go on going back to same hidden layer and
+getting assignged same weight in forward back propogation.After time t5 then output will go to final layer having softmax activation function and we will get final 
+prediction.Then using loss function backward propogation will happen in similar way.i.e by using chain rule.
+In RNN we face 2 problems vanishing gradient and  exploding  gradient as well as it doesnt have any memory so couldnt work good with very long text.
+By using RELU vanishing gradient problem can be solved  but when derivate becomes greater then 1 it results in exploding gradient problem i.e
+it weights become so high  that it never converge i.e we will not be able to reach global minima.So we use LSTM.
+Hence Sigmoid results in vanishing gradient problem and RELU results in exploiding gradient problem.
+Sometimes, we only need to look at recent information to perform the present task. For example, consider a language model trying to predict the next word based on the previous ones.
+ If we are trying to predict the last word in “the clouds are in the sky,” we don’t need any further context – it’s pretty obvious the next word is going to be sky.
+ In such cases, where the gap between the relevant information and the place that it’s needed is small, RNNs can learn to use the past information.
+ But there are also cases where we need more context. Consider trying to predict the last word in the text “I grew up in France… I speak fluent French.” 
+ Recent information suggests that the next word is probably the name of a language, but if we want to narrow down which language, we need the context of France,
+ from further back. It’s entirely possible for the gap between the relevant information and the point where it is needed to become very large.
+Unfortunately, as that gap grows, RNNs become unable to learn to connect the information.
+44) Exploiding gradient descent:
+In back propogation let say weight assigned is very high so it will result in exploiding gradient problem.So gradient descent will never converge.
+So weight initialisation is very important to avoid Exploiding gradient descent
+46) LSTM:
+https://colah.github.io/posts/2015-08-Understanding-LSTMs/
+Components of LSTM:
+Memory Cell, Forget Gate, Input Gate, Output Gate
+Memory Cell - 
+So it basically do task of remembering and  forgetting based on context of input.When context changes  it should remember  few old 
+as well as new contexts.Also  as context changes it need to store now new contexts. It has a cell state	
+Forget Gate - Before memory gate our input is concatenated  with previous output and then it passes  to sigmoid function which tell  what to forget and what to remember.
+So its called as forget gate.
+The first step in our LSTM is to decide what information we’re going to throw away from the cell state. This decision is made by a sigmoid layer called the “forget gate layer.”
+It looks at ht−1 and xt, and outputs a number between 0 and 1 for each number in the cell state Ct−1. A 1 represents “completely keep this” 
+while a 0 represents “completely get rid of this.”
+Input layer -
+The next step is to decide what new information we’re going to store in the cell state. This has two parts. First, a sigmoid layer called the “input gate layer” decides 
+which values we’ll update.
+ Next, a tanh layer creates a vector of new candidate values, C~t, that could be added to the state. In the next step, we’ll combine these two to create an update to the state.
+Here we use sigmoid and tanh activation function which helps to find relevant new information which need to be stored in memorycell
+Output gate - Simply generates the output
+Finally, we need to decide what we’re going to output. This output will be based on our cell state, but will be a filtered version.
+ First, we run a sigmoid layer which decides what parts of the cell state we’re going to output. Then, we put the cell state through
+ tanh (to push the values to be between −1 and 1) and multiply it by the output of the sigmoid gate, so that we only output the parts we decided to.
+47)Bidirectional LSTM:
+LSTM in its core, preserves information from inputs that has already passed through it using the hidden state.
+Unidirectional LSTM only preserves information of the past because the only inputs it has seen are from the past.
+Using bidirectional will run your inputs in two ways, one from past to future and one from future to past and what differs this approach from unidirectional is that in the
+ LSTM that runs backwards you preserve information from the future and using the two hidden states combined you are able in any point in time to preserve information from 
+ both past and future.
+What they are suited for is a very complicated question but BiLSTMs show very good results as they can understand context better, I will try to explain through an example.
+Lets say we try to predict the next word in a sentence, on a high level what a unidirectional LSTM will see is
+The boys went to ....
+And will try to predict the next word only by this context, with bidirectional LSTM you will be able to see information further down the road for example
+Forward LSTM:
+The boys went to ...
+Backward LSTM:
+... and then they got out of the pool
+You can see that using the information from the future it could be easier for the network to understand what the next word is.
+extra LSTM layer and information is passing through the  reverse direction.
+Bi directional lstm can be used in many nlp cases.
+Disdvantges:
+It cant be used in speech recognition as you will not get all the data at once.we get data with respect to time.
+Also its very slow compared to LSTM.As in bi directional LSTM we are using same set of layers
+48)Encoders & Decoders:
+Its basically used for sequence to sequence neural network problem for eg google translate, then when we search in google dog image  dancing it will give  lot of image etc
+There are 2 main component in sequence to sequence 1st is encoders and another is decoders,
+For eg I want to convert  english  language  into french
+SO here we will have LSTM in similar way but in each time stamp we will not  have output.We will have output directly at last time stamp.That output is a vector,
+also called as context vector.Now this layer is encoders. NOw this context vector will be pass to decoders.Now in decode 1st input will be context vector to  LSTM 
+then we  get output which will be the first word (of expected output in french) then we send  that output as input to another layer which will produce second word as
+output and  this way it continues.Now the size of  encoder(input sequence) may be different from decoders(output  sequence)
+One disadvantage of this is when  we have  long statement the accuracy is not that good.
+This  drawback can be resolved by using attention model where there is little architectural changes instead of using LSTM over there we use bi-directional LSTM.
+In practical implementation  we will be having encoder input, decoder input and decoder output.
+Here each english and fre	nch character will be respented by one  hot represntation.
+49)How rf handles outliers?
+Random forest handles outliers by essentially binning them.
+Trees are robust to outliers for the same reason the median is robust. 
+50)Details About Class:
+class MyClass:
+  x = 5
+p1 = MyClass()
+print(p1.x)
+All classes have a function called __init__(), which is always executed when the class is being initiated.
+Use the __init__() function to assign values to object properties, or other operations that are necessary to do when the object is being created
+class Person:
+  def __init__(self, name, age):
+    self.name = name
+    self.age = age
+  def myfunc(self):
+    print("Hello my name is " + self.name)
+p1 = Person("John", 36)
+p1.myfunc()
+Note - It does not have to be named self , you can call it whatever you like, but it has to be the first parameter of any function in the class:
+for eg -  def __init__(self, name, age) can also be return as  def __init__(mysillyobject, name, age):
+Also  once class is written from wherever we wants to initiate the program we write if __name__ == "__main__":
+define function kae andar function - yes we can define function kae andar function but we need to call second function from body of 1st function after defining second
+function inside  body of 1st function.
+class kae andar class - yes we can write
+main.py me koi aur python script call kar sakte hai kya - yes we can call another python script from anyother python script and can use any  variable, function , class
+defined in the other script.
+We can simply import any other python scrip by ,...  import python_script_name as other_script AND then we can simply access everything use (.) operator
+i.e other_script.(dot)
+51) Does  random  forest support NA  values?
+No it will give error when we run on data  with missing values.
+54) Embedded:
+Nice Links:
+https://www.analyticsvidhya.com/blog/2020/03/pretrained-word-embeddings-nlp/
+https://www.kaggle.com/sbongo/do-pretrained-embeddings-give-you-the-extra-edge
+word2vec - google
+glove - stanford
+fasttext - wiki
+Word2Vec: Feed forward neural network based model to find word embeddings. The Skip-gram model takes the input as each word in the corpus,
+sends them to a hidden layer (embedding layer) and from there it predicts the context words. Once trained, the embedding for a particular 
+word is obtained by feeding the word as input and taking the hidden layer value as the final embedding vector.
+GloVe: Glove is based on matrix factorization techniques on the word-context matrix. It first constructs a large matrix of (words x context) 
+co-occurrence information, i.e. for each “word” (the rows), you count how frequently we see this word in some “context” (the columns) in a large corpus. 
+The number of “contexts” is of course large, since it is essentially combinatorial in size. So then we factorize this matrix to yield a lower-dimensional 
+(word x features) matrix, where each row now yields a vector representation for each word. In general, this is done by minimizing a “reconstruction loss”.
+ This loss tries to find the lower-dimensional representations which can explain most of the variance in the high-dimensional data.
+FastText
+FastText is quite different from the above 2 embeddings. While Word2Vec and GLOVE treats each word as the smallest unit to train on,
+FastText uses n-gram characters as the smallest unit. For example, the word vector ,"apple", could be broken down into separate word vectors
+units as "ap","app","ple". The biggest benefit of using FastText is that it generate better word embeddings for rare words, or even words not 
+seen during training because the n-gram character vectors are shared with other words. This is something that Word2Vec and GLOVE cannot achieve.
+Embedding layer:
+Embedding layer has two mandatory arguments “vocab_size” and “embed_size”. vocab_size is the number of unique words in the input dataset.
+Embed_size is the size of Embedding word vectors. In our example embed_size is 300d. If we go with default weights for Embedding layer(word vectors) 
+specifying these two parameters will be sufficient. But if we have to use pre-trained word vectors, we have to pass embedding_matrix for the weights parameter.
+Another argument trainable should be set to True to fine tune the Embedding layer during training.
+Default from keras:
+model.add(Embedding(size_of_vocabulary,300,input_length=100,trainable = True))
+When use pre-trained:
+model.add(Embedding(size_of_vocabulary,300,weights = [embedding_matrix],input_length=100,trainable = False))
+So 2 parameters are important , first is weight and another is trainable as false as its already trained.
+59)Weight of evidence and Information Value using Python:
+Weight of evidence (WOE) and Information value (IV) are simple, yet powerful techniques to perform variable transformation and selection.
+These concepts have huge connection with the logistic regression modeling technique. It is widely used in credit scoring to measure the separation of good vs bad customers.
+Weight of Evidence (WoE) describes the relationship between a predictor and a binary dependent variable. Information Value (IV) is the measurement of that relationship’s power. 
+Based on its role, IV can be used as a base for attributes selection. 
+IV = summartion of [( %event - %non-event) * ln(%event/%non event)]
+Here WOE = ln(%event/%non event)]
+The advantages of WOE transformation are
+    Handles missing values
+    Handles outliers
+    The transformation is based on logarithmic value of distributions. This is aligned with the logistic regression output function
+    No need for dummy variables
+    By using proper binning technique, it can establish monotonic relationship (either increase or decrease) between the independent and dependent variable
+Also, IV value can be used to select variables quickly.
+Refer below link to calcualte IV value in  python.IV  values can be calculated for both dependent and independent variables?
+In below link there is github link given so follow step by step from that to find IV values in python
+https://medium.com/@sundarstyles89/weight-of-evidence-and-information-value-using-python-6f05072e83eb
+52)How does RFE works?
+RFE wo
+rks by searching for a subset of features by starting with all features in the training dataset and successfully removing features until the desired number remains.
+53)Why is feature selection important?
+Feature selection is a process where you automatically select those features in your data that contribute most to the prediction variable or output in which you are interested.
+Having irrelevant features in your data can decrease the accuracy of many models, especially linear algorithms like linear and logistic regression.
+Three benefits of performing feature selection before modeling your data are:
+    Reduces Overfitting: Less redundant data means less opportunity to make decisions based on noise.
+    Improves Accuracy: Less misleading data means modeling accuracy improves.
+    Reduces Training Time: Less data means that algorithms train faster.
+Few Important Links:
+https://machinelearningmastery.com/feature-selection-machine-learning-python/
+https://machinelearningmastery.com/rfe-feature-selection-in-python/
+55) MODEL DEPLOYMENT:
+Lets study deployment using cloud:
+There can be different servers:
+1) On premises:
+It means companies are creating there  own servers where they take care of everything i.e application , data, runtime, middleware, OS, servers
+2) IAAS (Infrastructure as a service)
+Few cloud platform providinf IAAS is AWS, GCP, Azure .So in this the work will be divided between  company people and  the AWS people.
+So here company needs to tell AWS people what application you have developed, data , what will be runtime and  what operating system you want.
+AWS people will take care of servers, storage, networking without any information from  customers.
+3) PAAS(Platform as a services)
+So here other then application and data everything will be taken care by the company who are providing platform as a service.
+So nothing to worry about like what runtime, operating system  i need to select .What scalability i need to select and so on.
+So heroku is an  example of this. 
+4)AWS:
+Benefits :
+Flexibility, Effective, Scalability,Security.
+Domain:
+There are lot of domains in  AWS and each domain provides some services to the user.
+Computing,Storage,Migration,Secure,Analytics etc are few domains
+Simple Storage Service(S3) :
+It is one of the service provided to the  user and is part of domain 'Storage'
+Its basically used for storing data.So our data is stored in S3.
+Data in S3 is stored in buckets.
+Benefits : Durability(there will never data loss almost 99.999999% surity,Avalaiblilty,scalability, security, data is stored in encryption format
+Elastic Compute Cloud (EC2):
+It is one of the service provided to the  user and is part of domain 'Compute'
+Provided secure and reseizable compute capacity in cloud.So instance  can be used as per requirement.
+Beenfits :Its easily integrated with S3,Scalable,pay as you use,support differet OS
+Steps:
+Keep .py ready
+Make changed  in read and write path as per aws path
+create aws account
+create ec2 instance
+download putty and puttygen
+generate private key with putty gen
+download winscp and  move all the file from desktop to AWS
+install all packages using putty
+run your program from putty python
+Note - We can open jupyer notebook in AWS using sagemaker	
+How to schedule python script as well as ec2 instance.
+what is crontab in AWS?
+Its like a scheduler.Cronjob basically tell the server when our specific code should run
+what is lambda in AWS?
+Its one  of the AWS service.Its used for writing a function.Like we  used to start/stop our  instance
+https://www.youtube.com/watch?v=UlYabgZkIDs
+https://www.youtube.com/watch?v=97q30JjEq9Y
+For automatic back up from S3 to local or vice versa:
+https://www.youtube.com/watch?v=S-gqqOQPinE
+Connecting to SQL from AWS:
+https://www.youtube.com/watch?v=xWbU_OnkFOo
+
+#####Revise below 
+nlp simple classification models?
+https://blog.usejournal.com/sentiment-classification-with-natural-language-processing-on-lstm-4dc0497c1f19
+
+
+
+
+
